@@ -25,8 +25,13 @@
 unRAID Server OS Change Log
 ===========================
 
-Version 6.2-beta18
-------------------
+THIS IS BETA SOFWARE
+--------------------
+
+While every effort has been made to ensure no data loss, **use at your own risk!**
+
+Version 6.2-beta18 2016-03-11
+-----------------------------
 
 Changes vs. unRAID Server OS 6.1.9.
 
@@ -90,7 +95,8 @@ webGui:
 - docker: revamped docker container edit page (thanks gfjardim!)
 - docker: now using docker v2 index/repos
 - docker: updating a stopped container will keep it stopped upon completion
-- reverse negative logic in docker and libvirt image fsck confirmation
+- dyanmix-6.2: version 2016-03-11
+- reverse the negative logic in docker and libvirt image fsck confirmation
 - support user specified network MTU value
 - vm manager: usb3 controller support, improved usb device sorting and display
 - vm manager: integrated virtio driver iso downloader

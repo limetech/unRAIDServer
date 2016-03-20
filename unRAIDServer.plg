@@ -4,7 +4,7 @@
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
 
-<!ENTITY version   "6.2.0-beta19">
+<!ENTITY version   "6.2.0-beta20">
 <!ENTITY pluginURL "https://raw.github.com/limetech/&name;-6.2/master/&name;.plg">
 <!ENTITY category  "beta">
 
@@ -29,6 +29,16 @@ THIS IS BETA SOFWARE
 --------------------
 
 While every effort has been made to ensure no data loss, **use at your own risk!**
+
+Version 6.2-beta20 2016-03-20
+-----------------------------
+
+Management (emhttp):
+
+- Fix auto-start array
+- Quiet extraneous nfs start messages.
+- When necessary to query keyserver, poll up to 45 seconds for a connection.
+- Fix upgrade process erroneous reference of /boot/config/domains.cfg to /boot/config/domain.cfg
 
 Version 6.2-beta19 2016-03-17
 -----------------------------
@@ -305,11 +315,11 @@ if [ "${version:0:2}" == "6." ]; then
 fi
 # when upgrading any version prior to 6.2
 if [ "${version:0:3}" \&lt; "6.2" ]; then
-  if ! grep -q 'IMAGE_FILE' /boot/config/domains.cfg &amp;&gt; /dev/null ; then
-    echo 'IMAGE_FILE="/mnt/user/system/libvirt/libvirt.img"' &gt;&gt; /boot/config/domains.cfg
+  if ! grep -q 'IMAGE_FILE' /boot/config/domain.cfg &amp;&gt; /dev/null ; then
+    echo 'IMAGE_FILE="/mnt/user/system/libvirt/libvirt.img"' &gt;&gt; /boot/config/domain.cfg
   fi
-  if ! grep -q 'IMAGE_SIZE' /boot/config/domains.cfg &amp;&gt; /dev/null ; then
-    echo 'IMAGE_SIZE="1"' &gt;&gt; /boot/config/domains.cfg
+  if ! grep -q 'IMAGE_SIZE' /boot/config/domain.cfg &amp;&gt; /dev/null ; then
+    echo 'IMAGE_SIZE="1"' &gt;&gt; /boot/config/domain.cfg
   fi
   if ! grep -q '/bzroot-gui' /boot/syslinux/syslinux.cfg &amp;&gt; /dev/null ; then
     sed -i 's|menu title Lime Technology\r|menu title Lime Technology, Inc.\r|g' /boot/syslinux/syslinux.cfg &amp;&gt; /dev/null

@@ -4,7 +4,7 @@
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
 
-<!ENTITY version   "6.2.0-beta20">
+<!ENTITY version   "6.2.0-beta21">
 <!ENTITY pluginURL "https://raw.github.com/limetech/&name;-6.2/master/&name;.plg">
 <!ENTITY category  "beta">
 
@@ -30,6 +30,61 @@ THIS IS BETA SOFWARE
 
 While every effort has been made to ensure no data loss, **use at your own risk!**
 
+Version 6.2-beta21 2016-04-05
+-----------------------------
+
+Base distro:
+
+- at: version 3.1.19
+- curl: version 7.48.0
+- dbus: version 1.10.8
+- glibc-zoneinfo: version 2016c
+- kernel-firmware: version 20160401
+- libevent: version 2.0.22
+- lvm2: version 2.02.148
+- php: version 5.6.20
+- qemu: version 2.5.1
+- samba: version 4.4.0
+- sudo: version 1.8.16
+- xkeyboard-config: version 2.17
+
+Management:
+
+- Fixed a few bugs in mac version of syslinux
+- rc.local: disabled irqbalance service from automatically starting
+- Fix container hostpath validation in rc.docker.
+- Updated smartmontool drivedb.h
+    
+Linux kernel:
+
+- added config options:
+  - DM_MIRROR: Mirror target (per user request)
+- unraid: Fix parity size not checked against size of new device(s) added to existing array.
+- unraid: Fix non-present disabled data device size not checked against new parity device size.
+
+webGui:
+
+- Version: 2016-04-05
+- VM Manager: add German vnc keyboard choice
+- Improved core separation display for AMD cpus on System Devices page
+- Fix: Templates not updating
+- Fix single line display of non-hyperthreaded cores on Dashboard page
+- Make direct link to plugin update optional in notice.  Allows for direct download or redirect to plugin manager
+- Show parity history with newest entry at top and oldest entry at bottom
+- Add unRAID OS/Dynamix GUI update message in footer
+- API for plugins to test and display a new version message
+- Force refresh of file when content has changed, and file is viewed in browser
+- Check for disk not present in status report
+- Group disk types (parity, data, cache) in status report
+- Improved core separation on Dashboard page
+- Docker: add RO/Slave path option
+- Docker: Do not override /config Name or Display for V2 templates
+- Docker: remove spaces from container names
+- Fixed regression error in Browse function
+- vnc viewer: code updates from upstream (Make sure to copy arrays when using render queue)
+- Upgraded jQuery to version 2.2.2
+- Change min width of navbar items (@anthony0030)
+    
 Version 6.2-beta20 2016-03-25
 -----------------------------
 

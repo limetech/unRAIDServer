@@ -4,7 +4,7 @@
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
 
-<!ENTITY version   "6.2.0-beta22">
+<!ENTITY version   "6.2.0-beta23">
 <!ENTITY pluginURL "https://raw.github.com/limetech/&name;-6.2/master/&name;.plg">
 <!ENTITY category  "beta">
 
@@ -29,6 +29,29 @@ THIS IS BETA SOFWARE
 --------------------
 
 While every effort has been made to ensure no data loss, **use at your own risk!**
+
+Version 6.2-beta23 2016-06-11
+-----------------------------
+
+Linux kernel:
+
+- added Mellanox network drivers per user request:
+  - MLX5_CORE: Mellanox Technologies ConnectX-4 and Connect-IB core driver
+  - MLX5_CORE_EN: Mellanox Technologies ConnectX-4 Ethernet support
+  - MLXSW_CORE: Mellanox Technologies Switch ASICs support
+  - MLXSW_PCI: PCI bus implementation for Mellanox Technologies Switch ASICs
+
+Management:
+
+  - fix: ensure hwdb is updated for lsusb descriptions
+
+webGui:
+
+  - Fixed regex validation for IPv4 (e.g. 208.67.220.220 now works)
+  - Fixed eth0 port status detection and port up/down execution
+  - Fixed display on dashboard when parity is invalid
+  - VM Manager: add 'virtio-win-0.1.117' and 'virtio-win-0.1.118' to VirtIO-ISOs list
+  - VM Manager: add LibreELEC to the template list
 
 Version 6.2-beta22 2016-06-08
 -----------------------------
@@ -80,7 +103,7 @@ webGui:
 - upgraded font-awesome to version 4.6.3
 - vm manager: add 'virtio-win-0.1.113' to VirtIO-ISOs list
 - vm manager: add '6.0.3' to the OpenELEC versions list
-- vm manager: bug fix: don't reset vDisk Location dropdown to 'None' when ‘Manual' should be selected
+- vm manager: bug fix: don't reset vDisk Location dropdown to 'None' when 'Manual' should be selected
 - vm manager: clean up virtio-iso download progress
 - vm manager: OpenELEC download folder should default to <domain share folder> if it exists
 - vm settings: allow option to remove libvirt image

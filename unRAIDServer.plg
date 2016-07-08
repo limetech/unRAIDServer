@@ -4,7 +4,7 @@
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
 
-<!ENTITY version   "6.2.0-beta23">
+<!ENTITY version   "6.2.0-rc1">
 <!ENTITY pluginURL "https://raw.github.com/limetech/&name;-6.2/master/&name;.plg">
 <!ENTITY category  "beta">
 
@@ -25,13 +25,71 @@
 unRAID Server OS Change Log
 ===========================
 
-THIS IS BETA SOFWARE
---------------------
+Version 6.2.0-rc1 2016-07-08
+----------------------------
 
-While every effort has been made to ensure no data loss, **use at your own risk!**
+Base distro:
 
-Version 6.2-beta23 2016-06-11
------------------------------
+- Slackware64-14.2 base distro
+- gd: version 2.2.1 (CVE-2015-8874, CVE-2016-3074)
+- kernel-firmware: version 20160628git
+- pcre: version 8.39 (CVE-2016-1283)
+- php: version 5.6.23 (CVE-2016-5766, CVE-2016-5767, CVE-2016-5768, CVE-2016-5769, CVE-2016-5770, CVE-2016-5771, CVE-2016-5772, CVE-2016-5773)
+- wget: version 1.18 (CVE-2016-4971)
+
+Linux kernel:
+
+- version 4.4.14
+- added config options:
+  - SCSI_PM8001: PMC-Sierra SPC 8001 SAS/SATA Based Host Adapter driver (per user request)
+  - SCSI_STEX: Promise SuperTrak EX Series support (per user request)
+
+Management:
+
+- correct typo in boot device comment
+- docker: fix handling of config/docker.cfg default docker settings
+- fix handling of non-standard boot device label
+- networking: prevent invalid USE_DHCP="no" and DHCP_KEEPRESOLV="no" (or empty) combination
+- md/unraid: prevent multiple kernel threads from updating super.dat file at the same time
+- remove device limit on Trial key.
+- shfs/mover: support user share cache mode "prefer"
+- Trial key now supports unlimited storage devices
+
+webGui:
+
+- added 'preset current configuration' with New Config utility
+- Allow multiple disk selection in NewPerms utility
+- docker: fix device pass-through (container target was always coming up empty before)
+- docker: fix update to always request manifest.v2 information
+- docker: fix update/create to skip any remaining operations and display the error messages when 'docker pull' fails
+- docker: improved cache handling for docker container/image information which may have solved some rare cases of showing stale info on the web ui
+- docker settings: show warnings next to paths when array is stopped or when they are invalid; hide vdisk size under advanced view
+- fix hiding VM help block about creating a new VM when editing a existing VM
+- fix ip address update if the system initially gets a local link address (169.254.x.x)
+- fix year added in parity history when browser is opened
+- include all network interfaces in diagnostics
+- include scsi attached drives in diagnostics
+- permit share 'Use cache' configuration even if no cache disk/pool exists.
+- remove conflicting generation of docker.cfg file
+- remove conflicting generation of domain.cfg file
+- remove SMART config files when "New Config" is done
+- sort plugins alphabetically
+- show disconnected ethX interfaces on the dashbaord
+- vm manager: add 'virtio-win-0.1.118-2' to VirtIO-ISOs list
+- vm manager: check free space before attempting to download OpenELEC file
+- vm manager: check free space before attempting to download LibreELEC file
+- vm manager: check free space before attempting to download VirtIO ISO file
+- vm manager: fix showing vnc input controls when a real GPU is selected while toggling from basic to advanced view
+- vm manager: hide files starting with a . (dot) from showing up in the file pickers
+- vm manager: remove 'VirtIO' as a option from the CDRom Bus dropdowns
+- vm manager: whitelist 'tainted: high-privileges' and 'tainted: host-cpu' as regular text during log color coding
+- vm settings: fix handling of config/domain.cfg default libvirt settings
+- vm settings: hide vdisk size input under advanced view
+- vm settings: prevent virtio-iso download if ISO share/path doesn't exist
+- vm settings: show warnings next to paths when array is stopped or when they are invalid
+
+Version 6.2.0-beta23 2016-06-11
+-------------------------------
 
 Linux kernel:
 
@@ -53,8 +111,8 @@ webGui:
   - VM Manager: add 'virtio-win-0.1.117' and 'virtio-win-0.1.118' to VirtIO-ISOs list
   - VM Manager: add LibreELEC to the template list
 
-Version 6.2-beta22 2016-06-08
------------------------------
+Version 6.2.0-beta22 2016-06-08
+-------------------------------
 
 Base distro:
 
@@ -109,8 +167,8 @@ webGui:
 - vm settings: allow option to remove libvirt image
 - vm settings: bug fix: spinning download button
 
-Version 6.2-beta21 2016-04-05
------------------------------
+Version 6.2.0-beta21 2016-04-05
+-------------------------------
 
 Base distro:
 
@@ -164,8 +222,8 @@ webGui:
 - Upgraded jQuery to version 2.2.2
 - Change min width of navbar items (@anthony0030)
     
-Version 6.2-beta20 2016-03-25
------------------------------
+Version 6.2.0-beta20 2016-03-25
+-------------------------------
 
 Base distro:
 
@@ -208,8 +266,8 @@ webGui:
 - dynamix: Get rid of SMART db update in monitor
 - Do not activate context-sensitive help functionality for Docker and VMs pages yet
     
-Version 6.2-beta19 2016-03-17
------------------------------
+Version 6.2.0-beta19 2016-03-17
+-------------------------------
 
 Base distro:
 
@@ -269,8 +327,8 @@ webGui:
 - fix when disk rebuild is complete, notification reports status "Canceled"
 - vm manager: Fix cdrom bus type to use SATA when machine type is Q35
 
-Version 6.2-beta18 2016-03-11
------------------------------
+Version 6.2.0-beta18 2016-03-11
+-------------------------------
 
 Changes vs. unRAID Server OS 6.1.9.
 
@@ -483,12 +541,6 @@ if [ "${version:0:2}" == "6." ]; then
 fi
 # when upgrading any version prior to 6.2
 if [ "${version:0:3}" \&lt; "6.2" ]; then
-  if ! grep -q 'IMAGE_FILE' /boot/config/domain.cfg &amp;&gt; /dev/null ; then
-    echo 'IMAGE_FILE="/mnt/user/system/libvirt/libvirt.img"' &gt;&gt; /boot/config/domain.cfg
-  fi
-  if ! grep -q 'IMAGE_SIZE' /boot/config/domain.cfg &amp;&gt; /dev/null ; then
-    echo 'IMAGE_SIZE="1"' &gt;&gt; /boot/config/domain.cfg
-  fi
   if ! grep -q '/bzroot-gui' /boot/syslinux/syslinux.cfg &amp;&gt; /dev/null ; then
     sed -i 's|menu title Lime Technology\r|menu title Lime Technology, Inc.\r|g' /boot/syslinux/syslinux.cfg &amp;&gt; /dev/null
     sed -i 's|label unRAID OS Safe Mode (no plugins)|label unRAID OS GUI Mode\r\n  kernel /bzimage\r\n  append initrd=/bzroot,/bzroot-gui\r\nlabel unRAID OS Safe Mode (no plugins, no GUI)|g' /boot/syslinux/syslinux.cfg &amp;&gt; /dev/null

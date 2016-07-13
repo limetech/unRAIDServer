@@ -4,7 +4,7 @@
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
 
-<!ENTITY version   "6.2.0-rc1">
+<!ENTITY version   "6.2.0-rc2">
 <!ENTITY pluginURL "https://raw.github.com/limetech/&name;-6.2/master/&name;.plg">
 <!ENTITY category  "beta">
 
@@ -24,6 +24,34 @@
 <![CDATA[
 unRAID Server OS Change Log
 ===========================
+
+Version 6.2.0-rc2 2016-07-13
+----------------------------
+
+Base distro:
+
+- samba: version 4.4.5 (CVE-2016-2119)
+
+Linux kernel:
+
+- version 4.4.15
+- added Adaptec HBA 1000-8i drivers per user request
+
+Management:
+
+- better console message if USB flash missing the proper label during boot
+- correct logic auto-creating the shares: appata,domains,isos,system
+- shfs with hard link support
+- experimental shfs hard-link support (probably will be removed)
+
+webGui:
+
+- docker: fix populate variable descriptions for v1 templates
+- docker: inherit text color for basic/advanced view toggle's off state
+- docker: trim trailing spaces from certain input box values
+- prevent "unavailable" as first entry in parity history
+- remove SMART error history when new config is performed
+- suppress non-present disks in disk include/exclude list
 
 Version 6.2.0-rc1 2016-07-08
 ----------------------------
@@ -191,7 +219,7 @@ Management:
 - rc.local: disabled irqbalance service from automatically starting
 - Fix container hostpath validation in rc.docker.
 - Updated smartmontool drivedb.h
-    
+
 Linux kernel:
 
 - added config options:
@@ -221,13 +249,13 @@ webGui:
 - vnc viewer: code updates from upstream (Make sure to copy arrays when using render queue)
 - Upgraded jQuery to version 2.2.2
 - Change min width of navbar items (@anthony0030)
-    
+
 Version 6.2.0-beta20 2016-03-25
 -------------------------------
 
 Base distro:
 
-- aaa_elflibs: version 14.2 
+- aaa_elflibs: version 14.2
 - ethtool: version 4.5
 - glibc-zoneinfo: version 2016b
 - lvm2: version lvm2-2.02.147
@@ -258,14 +286,14 @@ Management:
 
 webGui:
 
-- docker: Add Template Authoring Mode. 
+- docker: Add Template Authoring Mode.
 - docker: Add the ability to keep templates in sync with the authors modifications
 - docker: Fix: wrong variable name prevents config creation
-- docker: Set default port mode to TCP and path mode to RW 
+- docker: Set default port mode to TCP and path mode to RW
 - dynamix: Introduce context-sensitive help
 - dynamix: Get rid of SMART db update in monitor
 - Do not activate context-sensitive help functionality for Docker and VMs pages yet
-    
+
 Version 6.2.0-beta19 2016-03-17
 -------------------------------
 

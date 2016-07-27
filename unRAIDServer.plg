@@ -4,7 +4,7 @@
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
 
-<!ENTITY version   "6.2.0-rc2">
+<!ENTITY version   "6.2.0-rc3">
 <!ENTITY pluginURL "https://raw.github.com/limetech/&name;-6.2/master/&name;.plg">
 <!ENTITY category  "beta">
 
@@ -25,6 +25,28 @@
 unRAID Server OS Change Log
 ===========================
 
+Version 6.2.0-rc3 2016-07-27
+----------------------------
+
+Base distro:
+
+- php: version 5.6.24 (CVE-2016-5385, CVE-2016-6207)
+
+Management:
+
+- added "make bootable" script and syslinux for Linux clients
+- emhttp: ignore case in parsing http header fields
+- md/unraid: correct detection of new non-precleared disk(s) added to array
+- mover: add hard link support
+- mover: fix symlink support
+- shfs: add hard link support
+
+webGui:
+
+- correctly handle symlink location display when browsing user share
+- show reboot notice when a unRAID OS update applied and awaiting a reboot
+- show warning for Server Name when it doesn't meet NetBIOS standards
+
 Version 6.2.0-rc2 2016-07-13
 ----------------------------
 
@@ -40,8 +62,7 @@ Linux kernel:
 Management:
 
 - better console message if USB flash missing the proper label during boot
-- correct logic auto-creating the shares: appata,domains,isos,system
-- shfs with hard link support
+- correct logic auto-creating the shares: appdata,domains,isos,system
 - experimental shfs hard-link support (probably will be removed)
 
 webGui:

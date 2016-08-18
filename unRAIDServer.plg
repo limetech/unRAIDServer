@@ -4,7 +4,7 @@
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
 
-<!ENTITY version   "6.2.0-rc3">
+<!ENTITY version   "6.2.0-rc4">
 <!ENTITY pluginURL "https://raw.github.com/limetech/&name;-6.2/master/&name;.plg">
 <!ENTITY category  "beta">
 
@@ -24,6 +24,44 @@
 <![CDATA[
 unRAID Server OS Change Log
 ===========================
+
+Version 6.2.0-rc4 2016-08-18
+----------------------------
+
+Base distro:
+
+- curl: version 7.50.1 (CVE-2016-5419, CVE-2016-5420, CVE-2016-5421)
+- libidn: version 1.33 (CVE-2015-8948, CVE-2016-6261, CVE-2016-6262, CVE-2016-6263)
+- openssh: version 7.3p1 (CVE-2015-8325, CVE-2016-6210)
+
+Linux kernel:
+
+- version 4.4.18
+- upgraded out-of-tree Intel 10Gbit Ethernet driver ixgbe: version 4.3.15
+
+Management:
+
+- handle the situation when no network config file exists
+- improved mac "make bootable" script device detection
+- md/unraid: correct "new array" detection (so as to only permit autostart if no config change)
+- mover: support moving 'special files'
+- shfs: add 'mknod' support
+
+webGui:
+
+- display date as numeral in Parity history
+- expanded CPU thread pairings
+- expanded Share status and additional help
+- expanded system devices text
+- fixed disk name in SMART report of diagnostics
+- fixed invalid Docker placeholder icons on dashboard
+- fixed network counters and errors on dashboard, when VLANs are used
+- fixed selection of list elements
+- fixed suppress disk utilization threshold settings for additional disks in cache pool
+- fixed suppress spinup group on ALL cache devices
+- improve responsiveness of unassigned devices
+- include nvme disks in SMART report of diagnostics
+- purge Docker icon after container removal, also helps reload outdated icons
 
 Version 6.2.0-rc3 2016-07-27
 ----------------------------

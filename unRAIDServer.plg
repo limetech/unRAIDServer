@@ -4,7 +4,7 @@
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
 
-<!ENTITY version   "6.2.0-rc4">
+<!ENTITY version   "6.2.0-rc5">
 <!ENTITY pluginURL "https://raw.github.com/limetech/&name;-6.2/master/&name;.plg">
 <!ENTITY category  "beta">
 
@@ -25,6 +25,47 @@
 unRAID Server OS Change Log
 ===========================
 
+Version 6.2.0-rc5 2016-09-04
+----------------------------
+
+Base distro:
+
+- gnupg: version 1.4.21 (CVE-2016-6313)
+- libgcrypt: version 1.7.3 (CVE-2016-6313)
+
+Linux kernel:
+
+- version 4.4.19
+- i2c is now a module instead of builtin
+- kernel-firmware: version 20160823git
+- upgraded out-of-tree Highpoint Rocket r750: version 1.2.7 - fixes smartctl requests
+
+Management:
+
+- add experimental global share setting: "Tunable (enable Direct IO)"
+- fix regression in mac "make bootable" script
+- fixed: the combination DHCP static + DNS automatic is not allowed.
+- get rid of release validation for -rc releases with Basic/Plus/Pro
+- handle cases of ethernet NICs added or removed
+- sas device identification: change from WWN to MODEL_SERIALNO_WWN
+
+webGui:
+
+- Add collapsable CPU load details in Dashboard
+- Add configurable display of WWN in device ID
+- Add CLONE functionality to user shares and disk shares settings
+- add underlining when hoovering over links
+- Add option to anonymize diagnostics for a bug report
+- Added confirmation dialog when "parity is already valid" is checked
+- Changed truncation of log files and generation of last200 logs
+- docker: Delete failed downloads on template updates
+- Enhanced timezone settings and remove "custom" timezone choice
+- Fixed NewConfig display of array status
+- Fixed: allow ';' (semicolon) character in Docker variables
+- Improved feedback for clickable links
+- Remove unneeded title messages in links
+- Save mail password encrypted in configuration file
+    
 Version 6.2.0-rc4 2016-08-18
 ----------------------------
 
@@ -36,7 +77,7 @@ Base distro:
 
 Linux kernel:
 
-- version 4.4.18
+- version 4.4.18 (CVE-2016-5696)
 - upgraded out-of-tree Intel 10Gbit Ethernet driver ixgbe: version 4.3.15
 
 Management:

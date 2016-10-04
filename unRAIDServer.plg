@@ -3,9 +3,9 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
-
-<!ENTITY version   "6.2">
-<!ENTITY pluginURL "https://raw.github.com/limetech/&name;/master/&name;.plg">
+<!ENTITY branch    "6.2">
+<!ENTITY version   "6.2.1">
+<!ENTITY pluginURL "https://raw.github.com/limetech/webgui/&branch;/plugins/&name;/&name;.plg">
 <!ENTITY category  "stable">
 
 <!ENTITY zip       "https://s3.amazonaws.com/dnld.lime-technology.com/&category;/unRAIDServer-&version;-x86_64.zip">
@@ -24,6 +24,32 @@
 <![CDATA[
 unRAID Server OS Change Log
 ===========================
+
+Version 6.2.1 2016-10-04
+------------------------
+
+Base distro:
+
+- curl: version 7.50.3 (CVE-2016-7167)
+- gnutls: version 3.4.15 (CVE-2015-6251)
+- netatalk: version 3.1.10
+- openssl: version 1.0.2j (CVE-2016-7052, CVE-2016-6304, CVE-2016-6305, CVE-2016-2183, CVE-2016-6303, CVE-2016-6302, CVE-2016-2182, CVE-2016-2180, CVE-2016-2177, CVE-2016-2178, CVE-2016-2179, CVE-2016-2181, CVE-2016-6306, CVE-2016-6307, CVE-2016-6308)
+- php: version 5.6.26 (CVE-2016-7124, CVE-2016-7125, CVE-2016-7126, CVE-2016-7127, CVE-2016-7128, CVE-2016-7129, CVE-2016-7130, CVE-2016-7131, CVE-2016-7132, CVE-2016-7133, CVE-2016-7134, CVE-2016-7416, CVE-2016-7412, CVE-2016-7414, CVE-2016-7417, CVE-2016-7411, CVE-2016-7413, CVE-2016-7418)
+
+Linux kernel:
+
+- version 4.4.23 (CVE-2016-0758, CVE-2016-6480)
+- added config options:
+  - CONFIG_SENSORS_I5500: Intel 5500/5520/X58 temperature sensor
+
+Management:
+
+- bug fix: For file system type "auto", only attempt btrfs,xfs,reiserfs mounts.
+- bug fix: For docker.img and libvirt.img, if path on /mnt/ check for mountpoint on any subdir component, not just second subdir.
+- bug fix: During shutdown force continue if array stop taking too long.
+- bug fix: Handle case in 'mover' where rsync may move a file but also return error status.
+- md/unraid: Fix bug where case of no data disks improperly detected.
+- webGui: Add "Shutdown time-out" control on Disk Settings page.
 
 Version 6.2 2016-09-15
 ----------------------
@@ -70,7 +96,7 @@ webGui:
 - Improved feedback for clickable links
 - Remove unneeded title messages in links
 - Save mail password encrypted in configuration file
-    
+
 Version 6.2.0-rc4 2016-08-18
 ----------------------------
 

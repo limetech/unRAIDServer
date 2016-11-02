@@ -4,7 +4,7 @@
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
 <!ENTITY branch    "6.2">
-<!ENTITY version   "6.2.1">
+<!ENTITY version   "6.2.3">
 <!ENTITY pluginURL "https://raw.github.com/limetech/webgui/&branch;/plugins/&name;/&name;.plg">
 <!ENTITY category  "stable">
 
@@ -24,6 +24,43 @@
 <![CDATA[
 unRAID Server OS Change Log
 ===========================
+
+Version 6.2.3 2016-11-01
+------------------------
+
+Base distro:
+
+- php: version 5.6.27
+
+Linux kernel:
+
+- version 4.4.30
+- md/unraid version: 2.6.8
+  - make the 'check' command "correct"/"nocorrect" argument case insensitive
+  - mark superblock 'clean' upon initialization
+    
+Management:
+
+- emhttp: ensure disk shares have proper permissions set even if not being exported
+- emhttp: fix detecton of unclean shutdown to trigger automatic parity check upon Start if necessary
+- emhttp: unmount docker/libvirt loopback if docker/libvirt fail to start properly
+- update: hwdata/{pci.ids,usb.ids,oui.txt,manuf.txt} smartmontools/drivedb.h
+- webGui: correct handling of unclean shutdown detection
+- webGui: fixed some help text typos
+- webGui: Fixed: Web UI Docker Stop/Restart does not cleanly stop container
+    
+Version 6.2.2 2016-10-21
+------------------------
+
+Linux kernel:
+
+- version 4.4.26 (CVE-2016-5195)
+- reiserfs: incorporated patch from SUSE to fix broken extended attributes bug
+
+Management:
+
+- shutdown: save diagnostics and additional logging in event of cmdStop timeout
+- webGui: Fixed: Windows unable to extract diagnostics zip file
 
 Version 6.2.1 2016-10-04
 ------------------------

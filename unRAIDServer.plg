@@ -4,7 +4,7 @@
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
 <!ENTITY branch    "6.2">
-<!ENTITY version   "6.2.3">
+<!ENTITY version   "6.2.4">
 <!ENTITY pluginURL "https://raw.github.com/limetech/webgui/&branch;/plugins/&name;/&name;.plg">
 <!ENTITY category  "stable">
 
@@ -24,6 +24,22 @@
 <![CDATA[
 unRAID Server OS Change Log
 ===========================
+
+Version 6.2.4 2016-11-05
+------------------------
+
+Base distro:
+
+- curl: version 7.51.0 (CVE-2016-8615, CVE-2016-8616, CVE-2016-8617, CVE-2016-8618, CVE-2016-8619, CVE-2016-8620, CVE-2016-8621, CVE-2016-8622, CVE-2016-8623, CVE-2016-8624, CVE-2016-8625)
+- glibc-zoneinfo: version 2016i
+
+Linux kernel:
+
+- added config options:
+  - CONGIG_CFQ_GROUP_IOSCHED: CFQ Group Scheduling support
+  - CONFIG_CGROUP_PIDS: PIDs cgroup subsystem
+  - CONGIG_BLK_DEV_THROTTLING: Block layer bio throttling support
+  - CONFIG_XFRM_USER: Transformation user configuration interface
 
 Version 6.2.3 2016-11-01
 ------------------------

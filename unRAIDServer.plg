@@ -3,14 +3,13 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
-<!ENTITY branch    "6.2">
-<!ENTITY version   "6.2.4">
-<!ENTITY pluginURL "https://raw.github.com/limetech/webgui/&branch;/plugins/&name;/&name;.plg">
-<!ENTITY category  "stable">
+<!ENTITY version   "6.3.0">
+<!ENTITY pluginURL "https://raw.github.com/limetech/&name;/master/&name;.plg">
 
+<!ENTITY category  "stable">
 <!ENTITY zip       "https://s3.amazonaws.com/dnld.lime-technology.com/&category;/unRAIDServer-&version;-x86_64.zip">
 <!ENTITY md5       "https://s3.amazonaws.com/dnld.lime-technology.com/&category;/unRAIDServer-&version;-x86_64.md5">
-<!ENTITY files     "bzimage,bzroot*,make_bootable.bat,make_bootable_mac,memtest,*.txt,syslinux/syslinux.cfg-">
+<!ENTITY files     "bzimage,bzroot*,make_bootable.bat,make_bootable_linux,make_bootable_mac,memtest,*.txt,syslinux/syslinux.cfg-">
 
 <!ENTITY infozip   "infozip-6.0-i486-1.txz">
 ]>
@@ -25,593 +24,279 @@
 unRAID Server OS Change Log
 ===========================
 
-Version 6.2.4 2016-11-05
+Version 6.3.0 2017-02-02
 ------------------------
+
+Management:
+
+- emhttp: added 'svcs_restarting' event
+- emhttp: include "vfs objects =" line for each share named in generated /etc/samba/smb-shared.conf file
+- webGui: Fix regression changing display banner
+- webGui: Fix regression with 'Compute All' on Share page
+
+Version 6.3.0-rc9 2017-01-27
+----------------------------
+
+Base distro:
+
+- add pv: version 1.6.0
+- docker: version 1.12.6 (CVE-2016-9962)
+- containerd: version 0.2.5
+- glibc-zoneinfo: version 2016j
+- gnutls: version 3.5.8 (CVE-2017-5334, CVE-2017-5335, CVE-2017-5336, CVE-2017-5337)
+- libpng: version 1.6.27 (CVE-2016-10087)
+- mozilla-firefox: version 51.0 (CVE-2017-5375, CVE-2017-5376, CVE-2017-5377, CVE-2017-5378, CVE-2017-5379, CVE-2017-5380, CVE-2017-5390, CVE-2017-5389, CVE-2017-5396, CVE-2017-5381, CVE-2017-5382, CVE-2017-5383, CVE-2017-5384, CVE-2017-5385, CVE-2017-5386, CVE-2017-5394, CVE-2017-5391, CVE-2017-5392, CVE-2017-5393, CVE-2017-5395, CVE-2017-5387, CVE-2017-5388, CVE-2017-5374, CVE-2017-5373)
+- openssh: version 7.4p1 (CVE-2016-10009, CVE-2016-10010, CVE-2016-10011, CVE-2016-10012)
+- php: version 7.0.15 (CVE-2016-10161, CVE-2016-10162, CVE-2017-5340, CVE-2016-7479, CVE-2016-10158, CVE-2016-10160, CVE-2016-10159)
+- samba: version 4.5.3 (CVE-2016-2123, CVE-2016-2125, CVE-2016-2126)
+- update hwdata/{pci.ids,usb.ids,oui.txt,manuf.txt}
+
+Linux kernel:
+
+- version 4.9.6
+- added CONFIG_DRM_I915: Intel 8xx/9xx/G3x/G4x/HD Graphics (but blacklisted to prevent auto-load)
+
+Management:
+
+- libvirt: disable nested virtualizaton by default
+- shfs: correct return value of system.LOCATION extended attribute to eliminate bash "warning: command substitution: ignored null byte in input"
+- webGui: Add BTRFS file system checking notifications
+- webGui: Avoid wget to cache plugin files and postpone plugin updates
+- webGui: Capitalize method name in plugin operations.
+- webGui: Natural sorting of user share names
+- webGui: Save docker, VM and libvirt logs as .txt files in diagnostics
+- webGui: Disable filesystem selection when data-rebuild is pending
+- webGui: Add cache pool BTRFS info (if existing) to diagnostics
+- webGui: added new Europe/Saratov timezone
+- webGui: additional XSS and CSRF hardening
+
+Version 6.3.0-rc6 2016-12-07
+----------------------------
+
+Base distro:
+
+- inotify-tools: version 3.14
+- mozilla-firefox: version 50.0.2 (CVE-2016-9078, CVE-2016-9079)
+- ntfs-3g: version 2016.2.22
+- rsyslog: version 8.23.0
+
+Linux kernel:
+
+- version 4.8.12 (CVE-2016-8650)
+
+Management:
+
+- network: must set forwarding delay before setting stp 'on'; need 1 sec delay between stop/start in restart
+- samba: move OS X "vfs_fruit" optimization from 'global' to individual share settings
+- shutdown: increase default shutdown delay from 60 to 90 sec; eliminate extraneous console messages
+- update: hwdata/{pci.ids,usb.ids,oui.txt,manuf.txt} smartmontools/drivedb.h
+- webGui: add Hibernate option to VM context menu
+
+Version 6.3.0-rc5 2016-11-25
+----------------------------
+
+Base distro:
+
+- bash: version 4.4.005
+- grep: version 2.26 (rev2)
+- kernel-firmware: version 20161118git
+- libvirt: version 2.4.0
+- mozilla-firefox: version 50.0
+- ntp: version 4.2.8p9 (CVE-2016-9311, CVE-2016-9310, CVE-2016-7427, CVE-2016-7428, CVE-2016-9312, CVE-2016-7431, CVE-2016-7434, CVE-2016-7429, CVE-2016-7426, CVE-2016-7433)
+
+Linux kernel:
+
+- version 4.8.10 (CVE-2016-7039)
+
+Management:
+
+- add btrfs_check script to facilitate btrfs file system check
+- bug fix: firefox correctly connects to emhttp port number
+- samba: include OS X vfs_fruit optimizations by default
+- shutdown: bug fix: overall shutdown timeout read from wrong cfg file
+- shutdown: bug fix: saving shutdown timeout value
+- shutdown: add config setting for overall VM shutdown timeout
+- update: hwdata/{pci.ids,usb.ids,oui.txt,manuf.txt} smartmontools/drivedb.h
+- webGui: add filesystem Check for btrfs volumes in Maintenance mode
+- webGui: add vm shutdown time-out option
+- webGui: generate VM xml with cpu topology as single-threaded when host cpu is AMD
+- webGui: special text aside new disks to clear
+- webGui: split out Europe/Istanbul as its own timezone
+
+Other:
+
+- make_bootable_linux: use readlink instead of realpath since it is more compatible
+
+Version 6.3.0-rc4 2016-11-11
+----------------------------
 
 Base distro:
 
 - curl: version 7.51.0 (CVE-2016-8615, CVE-2016-8616, CVE-2016-8617, CVE-2016-8618, CVE-2016-8619, CVE-2016-8620, CVE-2016-8621, CVE-2016-8622, CVE-2016-8623, CVE-2016-8624, CVE-2016-8625)
+- docker: version 1.12.3 (CVE-2016-8867)
 - glibc-zoneinfo: version 2016i
+- grep: version 2.26
+- kernel-firmware: version 20161001git
+- libusb: version 1.0.21
+- libX11: version 1.6.4 (CVE-2016-7942, CVE-2016-7943)
+- libXfixes: version 5.0.3 (CVE-2016-7944)
+- libXi: version 1.7.8 (CVE-2016-7945, CVE-2016-7946)
+- libXrandr: version 1.5.1 (CVE-2016-7947, CVE-2016-7948)
+- libXrender: version 0.9.10 (CVE-2016-7949, CVE-2016-7950)
+- libXtst: version 1.2.3 (CVE-2016-7951, CVE-2016-7952)
+- libXv: version 1.0.11 (CVE-2016-5407)
+- lvm2: version 2.02.166
+- mozilla-firefox: version 49.0.2
+- mpfr: version 3.1.5
+- nano: version 2.7.1
+- php: version 7.0.13
+- samba: version 4.5.1
 
 Linux kernel:
 
-- added config options:
-  - CONGIG_CFQ_GROUP_IOSCHED: CFQ Group Scheduling support
-  - CONFIG_CGROUP_PIDS: PIDs cgroup subsystem
-  - CONGIG_BLK_DEV_THROTTLING: Block layer bio throttling support
-  - CONFIG_XFRM_USER: Transformation user configuration interface
-
-Version 6.2.3 2016-11-01
-------------------------
-
-Base distro:
-
-- php: version 5.6.27
-
-Linux kernel:
-
-- version 4.4.30
-- md/unraid version: 2.6.8
+- version 4.8.7 (CVE-2016-7042, CVE-2016-8630, CVE-2016-8633)
+- md/unraid version: 2.7.1
   - make the 'check' command "correct"/"nocorrect" argument case insensitive
   - mark superblock 'clean' upon initialization
-    
+
 Management:
 
+- emhttp: add API command cmdStopMover and API status variable shareMoverActive (yes/no)
 - emhttp: ensure disk shares have proper permissions set even if not being exported
 - emhttp: fix detecton of unclean shutdown to trigger automatic parity check upon Start if necessary
+- emhttp: fix mac address not set in avahi afp share advertisement (regression introduced in -rc2)
 - emhttp: unmount docker/libvirt loopback if docker/libvirt fail to start properly
+- mover: add start/stop/status subcommands (experimental)
+- mover: dereference files on user shares to get st_dev/st_ino instead of from shfs stat structure
+- shfs: eliminate 'use_ino' option dependency (fixes NFS issue on buggy clients)
 - update: hwdata/{pci.ids,usb.ids,oui.txt,manuf.txt} smartmontools/drivedb.h
+- webGui: combine PCI Devices and IOMMU Groups on Sysdev page; Sort IOMMU and USB Devices properly
+- webGui: correct button positions on confirmation dialogs
 - webGui: correct handling of unclean shutdown detection
+- webGui: fixed device passthrough for Docker
+- webGui: fixed Docker/VMs tab stay visible when array is stopped
 - webGui: fixed some help text typos
-- webGui: Fixed: Web UI Docker Stop/Restart does not cleanly stop container
-    
-Version 6.2.2 2016-10-21
-------------------------
+- webGui: update to font-awesome 4.7.0
+
+Version 6.3.0-rc3 2016-10-22
+----------------------------
 
 Linux kernel:
 
-- version 4.4.26 (CVE-2016-5195)
-- reiserfs: incorporated patch from SUSE to fix broken extended attributes bug
+- version 4.8.4 (CVE-2016-5195)
 
 Management:
 
-- shutdown: save diagnostics and additional logging in event of cmdStop timeout
-- webGui: Fixed: Windows unable to extract diagnostics zip file
+- shutdown: additional logging in event of cmdStop timeout
 
-Version 6.2.1 2016-10-04
-------------------------
+Version 6.3.0-rc2 2016-10-19
+----------------------------
 
 Base distro:
 
-- curl: version 7.50.3 (CVE-2016-7167)
-- gnutls: version 3.4.15 (CVE-2015-6251)
-- netatalk: version 3.1.10
-- openssl: version 1.0.2j (CVE-2016-7052, CVE-2016-6304, CVE-2016-6305, CVE-2016-2183, CVE-2016-6303, CVE-2016-6302, CVE-2016-2182, CVE-2016-2180, CVE-2016-2177, CVE-2016-2178, CVE-2016-2179, CVE-2016-2181, CVE-2016-6306, CVE-2016-6307, CVE-2016-6308)
-- php: version 5.6.26 (CVE-2016-7124, CVE-2016-7125, CVE-2016-7126, CVE-2016-7127, CVE-2016-7128, CVE-2016-7129, CVE-2016-7130, CVE-2016-7131, CVE-2016-7132, CVE-2016-7133, CVE-2016-7134, CVE-2016-7416, CVE-2016-7412, CVE-2016-7414, CVE-2016-7417, CVE-2016-7411, CVE-2016-7413, CVE-2016-7418)
+- docker: version 1.12.2
+- containerd: version 0.2.4
+- runc: version 1.0.0_rc2
+- libseccomp: version 2.3.1
+- libvirt-php: 0.5.2 (+ latest from git)
+- php: version 7.0.12
+- usbredir: version 0.7.1
+- spice: version 0.12.8
+- spice-protocol: version 0.12.12
+- imlib2: version 1.4.9
+- gd: version 2.2.3
+- rsyslog: version 8.22.0
+- libfastjson: version 0.99.4
+- reverted OVMF firmware back to the version in 6.2 due to user reported issues
 
 Linux kernel:
 
-- version 4.4.23 (CVE-2016-0758, CVE-2016-6480)
-- added config options:
-  - CONFIG_SENSORS_I5500: Intel 5500/5520/X58 temperature sensor
+- version 4.8.2
+- r750: version 1.2.10-16_10_13
+- md/unraid: kernel 4.8 API changes; support FUA and SYNC write operation flags
+
+Management:
+
+- bug fix: Samba listening on the wrong interface in a VLAN-enable config
+- emhttp: added starting/stopping docker/libvirt events
+- emhttp: removed 'reboot', 'shutdown', 'changeNetwork' API calls; eliminated emhttp-managed network vars
+- shutdown: save diagnostics in event of cmdStop timeout
+- vm manager: add 'virtio-win-0.1.126-2' and 'virtio-win-0.1.126-1' to VirtIO-ISOs list
+- webGui: Added "Join" notification agent
+- webGui: Add support for "Notify My Android" notifications
+- webGui: Fixed: Windows unable to extract diagnostics zip file
+- webGui: Increased password length to 128 characters
+- webGui: Interactive Reboot and Shutdown directly invokes '/sbin/reboot' and '/sbin/poweroff'
+
+Version 6.3.0-rc1 2016-10-05
+----------------------------
+
+Base distro (primary packages):
+
+- btrfs-progs: version v4.7.2
+- netatalk: version 3.1.10
+- openssl: version 1.0.2j
+- php: version 5.6.26
+- qemu: version 2.7.0
+- samba: version 4.5.0
+
+Base distro (secondary packages):
+
+- apcupsd: version 3.14.14
+- bash: version 4.4.0
+- curl: version 7.50.3
+- diffutils: version 3.5
+- e2fsprogs: version 1.43.3
+- etc: version 14.2
+- file: version 5.28
+- fuse: version 2.9.7
+- gawk: version 4.1.4
+- gdbm: version 1.12
+- glib2: version 2.46.2
+- glibc: version 2.24
+- glibc: version zoneinfo
+- glibc-solibs: version 2.24
+- gnutls: version 3.4.15
+- jemalloc: version 4.2.1
+- kmod: version 23
+- libtasn1: version 4.9
+- libxml2: version 2.9.4
+- lvm2: version 2.02.161
+- nano: version 2.7.0
+- network-scripts: version 14.2
+- nfs-utils: version 1.3.4
+- openssl-solibs version: 1.0.2j
+- pkgtools-14.2-noarch: version 13
+- reiserfsprogs: version 3.6.25
+- util-linux: version 2.28.2
+
+Base distro (desktop GUI packages):
+
+- freetype: version 2.6.5
+- harfbuzz: version 1.3.0
+- libXfont: version 1.5.2
+- mesa: version 12.0.2
+- mozilla-firefox: version 49.0.1
+- xkeyboard-config: version 2.18
+- xorg-server: version 1.18.4
+
+Linux kernel:
+
+- version 4.7.6
+- aacraid: version 1.2.1-52011
+- intel 10Gbit ethernet: revert to in-tree drivers
+- r750: version 1.2.9-16_09_27
+- md/unraid: Fix bug where case of no data disks improperly detected.
 
 Management:
 
 - bug fix: For file system type "auto", only attempt btrfs,xfs,reiserfs mounts.
-- bug fix: For docker.img and libvirt.img, if path on /mnt/ check for mountpoint on any subdir component, not just second subdir.
+- bug fix: For docker.img and libvirt.img, if path on /mnt/ check for mountpoint on any subdir component
 - bug fix: During shutdown force continue if array stop taking too long.
 - bug fix: Handle case in 'mover' where rsync may move a file but also return error status.
-- md/unraid: Fix bug where case of no data disks improperly detected.
 - webGui: Add "Shutdown time-out" control on Disk Settings page.
-
-Version 6.2 2016-09-15
-----------------------
-
-- stable release version
-
-Version 6.2.0-rc5 2016-09-04
-----------------------------
-
-Base distro:
-
-- gnupg: version 1.4.21 (CVE-2016-6313)
-- libgcrypt: version 1.7.3 (CVE-2016-6313)
-
-Linux kernel:
-
-- version 4.4.19
-- i2c is now a module instead of builtin
-- kernel-firmware: version 20160823git
-- upgraded out-of-tree Highpoint Rocket r750: version 1.2.7 - fixes smartctl requests
-
-Management:
-
-- add experimental global share setting: "Tunable (enable Direct IO)"
-- fix regression in mac "make bootable" script
-- fixed: the combination DHCP static + DNS automatic is not allowed.
-- get rid of release validation for -rc releases with Basic/Plus/Pro
-- handle cases of ethernet NICs added or removed
-- sas device identification: change from WWN to MODEL_SERIALNO_WWN
-
-webGui:
-
-- Add collapsable CPU load details in Dashboard
-- Add configurable display of WWN in device ID
-- Add CLONE functionality to user shares and disk shares settings
-- add underlining when hoovering over links
-- Add option to anonymize diagnostics for a bug report
-- Added confirmation dialog when "parity is already valid" is checked
-- Changed truncation of log files and generation of last200 logs
-- docker: Delete failed downloads on template updates
-- Enhanced timezone settings and remove "custom" timezone choice
-- Fixed NewConfig display of array status
-- Fixed: allow ';' (semicolon) character in Docker variables
-- Improved feedback for clickable links
-- Remove unneeded title messages in links
-- Save mail password encrypted in configuration file
-
-Version 6.2.0-rc4 2016-08-18
-----------------------------
-
-Base distro:
-
-- curl: version 7.50.1 (CVE-2016-5419, CVE-2016-5420, CVE-2016-5421)
-- libidn: version 1.33 (CVE-2015-8948, CVE-2016-6261, CVE-2016-6262, CVE-2016-6263)
-- openssh: version 7.3p1 (CVE-2015-8325, CVE-2016-6210)
-
-Linux kernel:
-
-- version 4.4.18 (CVE-2016-5696)
-- upgraded out-of-tree Intel 10Gbit Ethernet driver ixgbe: version 4.3.15
-
-Management:
-
-- handle the situation when no network config file exists
-- improved mac "make bootable" script device detection
-- md/unraid: correct "new array" detection (so as to only permit autostart if no config change)
-- mover: support moving 'special files'
-- shfs: add 'mknod' support
-
-webGui:
-
-- display date as numeral in Parity history
-- expanded CPU thread pairings
-- expanded Share status and additional help
-- expanded system devices text
-- fixed disk name in SMART report of diagnostics
-- fixed invalid Docker placeholder icons on dashboard
-- fixed network counters and errors on dashboard, when VLANs are used
-- fixed selection of list elements
-- fixed suppress disk utilization threshold settings for additional disks in cache pool
-- fixed suppress spinup group on ALL cache devices
-- improve responsiveness of unassigned devices
-- include nvme disks in SMART report of diagnostics
-- purge Docker icon after container removal, also helps reload outdated icons
-
-Version 6.2.0-rc3 2016-07-27
-----------------------------
-
-Base distro:
-
-- php: version 5.6.24 (CVE-2016-5385, CVE-2016-6207)
-
-Management:
-
-- added "make bootable" script and syslinux for Linux clients
-- emhttp: ignore case in parsing http header fields
-- md/unraid: correct detection of new non-precleared disk(s) added to array
-- mover: add hard link support
-- mover: fix symlink support
-- shfs: add hard link support
-
-webGui:
-
-- correctly handle symlink location display when browsing user share
-- show reboot notice when a unRAID OS update applied and awaiting a reboot
-- show warning for Server Name when it doesn't meet NetBIOS standards
-
-Version 6.2.0-rc2 2016-07-13
-----------------------------
-
-Base distro:
-
-- samba: version 4.4.5 (CVE-2016-2119)
-
-Linux kernel:
-
-- version 4.4.15
-- added Adaptec HBA 1000-8i drivers per user request
-
-Management:
-
-- better console message if USB flash missing the proper label during boot
-- correct logic auto-creating the shares: appdata,domains,isos,system
-- experimental shfs hard-link support (probably will be removed)
-
-webGui:
-
-- docker: fix populate variable descriptions for v1 templates
-- docker: inherit text color for basic/advanced view toggle's off state
-- docker: trim trailing spaces from certain input box values
-- prevent "unavailable" as first entry in parity history
-- remove SMART error history when new config is performed
-- suppress non-present disks in disk include/exclude list
-
-Version 6.2.0-rc1 2016-07-08
-----------------------------
-
-Base distro:
-
-- Slackware64-14.2 base distro
-- gd: version 2.2.1 (CVE-2015-8874, CVE-2016-3074)
-- kernel-firmware: version 20160628git
-- pcre: version 8.39 (CVE-2016-1283)
-- php: version 5.6.23 (CVE-2016-5766, CVE-2016-5767, CVE-2016-5768, CVE-2016-5769, CVE-2016-5770, CVE-2016-5771, CVE-2016-5772, CVE-2016-5773)
-- wget: version 1.18 (CVE-2016-4971)
-
-Linux kernel:
-
-- version 4.4.14
-- added config options:
-  - SCSI_PM8001: PMC-Sierra SPC 8001 SAS/SATA Based Host Adapter driver (per user request)
-  - SCSI_STEX: Promise SuperTrak EX Series support (per user request)
-
-Management:
-
-- correct typo in boot device comment
-- docker: fix handling of config/docker.cfg default docker settings
-- fix handling of non-standard boot device label
-- networking: prevent invalid USE_DHCP="no" and DHCP_KEEPRESOLV="no" (or empty) combination
-- md/unraid: prevent multiple kernel threads from updating super.dat file at the same time
-- remove device limit on Trial key.
-- shfs/mover: support user share cache mode "prefer"
-- Trial key now supports unlimited storage devices
-
-webGui:
-
-- added 'preset current configuration' with New Config utility
-- Allow multiple disk selection in NewPerms utility
-- docker: fix device pass-through (container target was always coming up empty before)
-- docker: fix update to always request manifest.v2 information
-- docker: fix update/create to skip any remaining operations and display the error messages when 'docker pull' fails
-- docker: improved cache handling for docker container/image information which may have solved some rare cases of showing stale info on the web ui
-- docker settings: show warnings next to paths when array is stopped or when they are invalid; hide vdisk size under advanced view
-- fix hiding VM help block about creating a new VM when editing a existing VM
-- fix ip address update if the system initially gets a local link address (169.254.x.x)
-- fix year added in parity history when browser is opened
-- include all network interfaces in diagnostics
-- include scsi attached drives in diagnostics
-- permit share 'Use cache' configuration even if no cache disk/pool exists.
-- remove conflicting generation of docker.cfg file
-- remove conflicting generation of domain.cfg file
-- remove SMART config files when "New Config" is done
-- sort plugins alphabetically
-- show disconnected ethX interfaces on the dashbaord
-- vm manager: add 'virtio-win-0.1.118-2' to VirtIO-ISOs list
-- vm manager: check free space before attempting to download OpenELEC file
-- vm manager: check free space before attempting to download LibreELEC file
-- vm manager: check free space before attempting to download VirtIO ISO file
-- vm manager: fix showing vnc input controls when a real GPU is selected while toggling from basic to advanced view
-- vm manager: hide files starting with a . (dot) from showing up in the file pickers
-- vm manager: remove 'VirtIO' as a option from the CDRom Bus dropdowns
-- vm manager: whitelist 'tainted: high-privileges' and 'tainted: host-cpu' as regular text during log color coding
-- vm settings: fix handling of config/domain.cfg default libvirt settings
-- vm settings: hide vdisk size input under advanced view
-- vm settings: prevent virtio-iso download if ISO share/path doesn't exist
-- vm settings: show warnings next to paths when array is stopped or when they are invalid
-
-Version 6.2.0-beta23 2016-06-11
--------------------------------
-
-Linux kernel:
-
-- added Mellanox network drivers per user request:
-  - MLX5_CORE: Mellanox Technologies ConnectX-4 and Connect-IB core driver
-  - MLX5_CORE_EN: Mellanox Technologies ConnectX-4 Ethernet support
-  - MLXSW_CORE: Mellanox Technologies Switch ASICs support
-  - MLXSW_PCI: PCI bus implementation for Mellanox Technologies Switch ASICs
-
-Management:
-
-  - fix: ensure hwdb is updated for lsusb descriptions
-
-webGui:
-
-  - Fixed regex validation for IPv4 (e.g. 208.67.220.220 now works)
-  - Fixed eth0 port status detection and port up/down execution
-  - Fixed display on dashboard when parity is invalid
-  - VM Manager: add 'virtio-win-0.1.117' and 'virtio-win-0.1.118' to VirtIO-ISOs list
-  - VM Manager: add LibreELEC to the template list
-
-Version 6.2.0-beta22 2016-06-08
--------------------------------
-
-Base distro:
-
-- ca-certificates: version 20160104
-- curl: version 7.49.1 (CVE-2016-3739)
-- gnutls: version 3.4.13 (CVE-2016-4456)
-- kernel-firmware: version 20160601git
-- libarchive: version 3.1.2 (CVE-2016-1541)
-- libgcrypt: version 1.7.0
-- libxml2: version 2.9.4 (CVE-2016-4447, CVE-2016-4448, CVE-2016-4449)
-- mesa: version 11.2.2
-- mozilla-firefox: version 45.0.2
-- ntp: version 4.2.8p8 (CVE-2016-1551, CVE-2016-1549, CVE-2016-2516, CVE-2016-2517, CVE-2016-2518, CVE-2016-2519, CVE-2016-1547, CVE-2016-1548, CVE-2015-7704, CVE-2015-8138, CVE-2016-1550, CVE-2016-4953, CVE-2016-4954, CVE-2016-4955, CVE-2016-4956, CVE-2016-4957)
-- openssl: version 1.0.2h (CVE-2016-2108, CVE-2016-2107, CVE-2016-2105, CVE-2016-2106, CVE-2016-2109, CVE-2016-2176)
-- php: version 5.6.22 (CVE-2016-3074, CVE-2015-8865, CVE-2016-4073, CVE-2016-4072, CVE-2016-4071, CVE-2016-4070, CVE-2013-7456, CVE-2016-5093, CVE-2016-5094, CVE-2016-5096)
-- qemu: version 2.5.1.1 (CVE-2016-3712, CVE-2016-3710)
-- samba: version 4.4.4 (CVE-2015-5370, CVE-2016-2110, CVE-2016-2111, CVE-2016-2112, CVE-2016-2113, CVE-2016-2114, CVE-2016-2115, CVE-2016-2118)
-- smartmontools: version 6.5
-
-Management:
-
-- allow kernel append parameter 'unraidlabel' to override boot device label (default: UNRAID)
-- fix source url in smartmontools drivedb updater script (update-smart-drivedb)
-- fix rare deadlock case when there are insufficient free stripes for a large I/O
-- support dual-device "swap/disable" function
-- Support spaces in docker and libvirt image file paths.
-
-Linux kernel:
-
-- version 4.4.13
-- added config options:
-  - NIU: Sun Neptune 10Gbit Ethernet support (per user request)
-- added VLAN (802.1q) network and bridge support
-- updated nbd module option 'max_part' value to 64 (per user request)
-
-webGui:
-
-- docker: bug fix: allow official docker image updates to work
-- docker: don't download banner images anymore (banners were removed a while back)
-- fix custom setting in Parity Check Schedule
-- fix regression error in Browse function
-- include year in parity history
-- networking: VLAN and multiple ethernet support (Thanks Bergware!)
-- numerous cosmetic and typo fixes
-- upgraded jQuery to version 2.2.4
-- upgraded font-awesome to version 4.6.3
-- vm manager: add 'virtio-win-0.1.113' to VirtIO-ISOs list
-- vm manager: add '6.0.3' to the OpenELEC versions list
-- vm manager: bug fix: don't reset vDisk Location dropdown to 'None' when 'Manual' should be selected
-- vm manager: clean up virtio-iso download progress
-- vm manager: OpenELEC download folder should default to <domain share folder> if it exists
-- vm settings: allow option to remove libvirt image
-- vm settings: bug fix: spinning download button
-
-Version 6.2.0-beta21 2016-04-05
--------------------------------
-
-Base distro:
-
-- at: version 3.1.19
-- curl: version 7.48.0
-- dbus: version 1.10.8
-- glibc-zoneinfo: version 2016c
-- kernel-firmware: version 20160401
-- libevent: version 2.0.22
-- lvm2: version 2.02.148
-- php: version 5.6.20
-- qemu: version 2.5.1
-- samba: version 4.4.0
-- sudo: version 1.8.16
-- xkeyboard-config: version 2.17
-
-Management:
-
-- Fixed a few bugs in mac version of syslinux
-- rc.local: disabled irqbalance service from automatically starting
-- Fix container hostpath validation in rc.docker.
-- Updated smartmontool drivedb.h
-
-Linux kernel:
-
-- added config options:
-  - DM_MIRROR: Mirror target (per user request)
-- unraid: Fix parity size not checked against size of new device(s) added to existing array.
-- unraid: Fix non-present disabled data device size not checked against new parity device size.
-
-webGui:
-
-- Version: 2016-04-05
-- VM Manager: add German vnc keyboard choice
-- Improved core separation display for AMD cpus on System Devices page
-- Fix: Templates not updating
-- Fix single line display of non-hyperthreaded cores on Dashboard page
-- Make direct link to plugin update optional in notice.  Allows for direct download or redirect to plugin manager
-- Show parity history with newest entry at top and oldest entry at bottom
-- Add unRAID OS/Dynamix GUI update message in footer
-- API for plugins to test and display a new version message
-- Force refresh of file when content has changed, and file is viewed in browser
-- Check for disk not present in status report
-- Group disk types (parity, data, cache) in status report
-- Improved core separation on Dashboard page
-- Docker: add RO/Slave path option
-- Docker: Do not override /config Name or Display for V2 templates
-- Docker: remove spaces from container names
-- Fixed regression error in Browse function
-- vnc viewer: code updates from upstream (Make sure to copy arrays when using render queue)
-- Upgraded jQuery to version 2.2.2
-- Change min width of navbar items (@anthony0030)
-
-Version 6.2.0-beta20 2016-03-25
--------------------------------
-
-Base distro:
-
-- aaa_elflibs: version 14.2
-- ethtool: version 4.5
-- glibc-zoneinfo: version 2016b
-- lvm2: version lvm2-2.02.147
-- mc: version 4.8.16
-- pciutils: version 3.4.1
-- pkgtools: version 14.2
-- procps-ng: version 3.3.11
-- mozilla-firefox: version 45.0.1
-- harfbuzz: version harfbuzz-1.2.4
-- utempter: version 1.1.6
-
-Linux kernel:
-
-- version 4.4.6
-- added missing firmware: ast_dp501_fw.bin
-- use out-of-tree drivers:
-  - Intel 10Gbit Ethernet driver ixgbe: version 4.3.13
-  - Intel 10Gbit Ethernet driver ixgbevf: version 3.1.2
-  - Highpoint Rocket r750: version 1.2.4
-
-Management:
-
-- Add halt_poll_ns=0 to kvm.conf - eliminates high cpu overhead in windows 10 [kudos to Eric S. for this!]
-- Fix auto-start array
-- Fix upgrade process erroneous reference of /boot/config/domains.cfg to /boot/config/domain.cfg
-- Quiet extraneous nfs start messages.
-- When necessary to query keyserver, poll up to 45 seconds for a connection.
-
-webGui:
-
-- docker: Add Template Authoring Mode.
-- docker: Add the ability to keep templates in sync with the authors modifications
-- docker: Fix: wrong variable name prevents config creation
-- docker: Set default port mode to TCP and path mode to RW
-- dynamix: Introduce context-sensitive help
-- dynamix: Get rid of SMART db update in monitor
-- Do not activate context-sensitive help functionality for Docker and VMs pages yet
-
-Version 6.2.0-beta19 2016-03-17
--------------------------------
-
-Base distro:
-
-- fix NFS mounts and warnings about missing IPv6
-- removed obsolete 'apmd' and 'portmap' packages
-- acpid: version 2.0.26
-- docker: version 1.10.3
-- cryptsetup: version 1.7.1
-- grep: version 2.24
-- gtk+3: version 3.18.9
-- htop: version 2.0.1
-- libdrm: version 2.4.67
-- libnl3: version 3.2.27
-- lvm2: version 2.02.145
-- mozilla-firefox: version 45.0 (console GUI mode)
-- mpfr: version 3.1.4
-- nettle: version 3.2
-- openssh: version 7.2p2
-- p11-kit: version 0.23.2
-- pciutils: version 3.4.1
-- rpcbind: version 0.2.3
-- samba: version: 4.3.6
-- xorg-server: version 1.18.2
-
-Linux kernel:
-
-- version 4.4.5
-- added config options:
-  - AMD_IOMMU_V2: AMD IOMMU Version 2 driver
-  - INTEL_IOMMU_SVM: Support for Shared Virtual Memory with Intel IOMMU
-  - SCSI_HPSA: HP Smart Array SCSI driver [per customer request for testing, may be removed]
-- unraid: Correct sync start/end timestamps.
-- unraid: Fix device spindown bug.
-- unraid: Fix NEW_ARRAY case of Q not set invalid.
-- unraid: Refinement in 'invalidslot' handling
-
-Management:
-
-- Certain mount errors can actually leave device mounted, so un-mount if any error detected.
-- Change 'color' status of non-present parity devices from 'red-off' to 'grey-off'.
-- correctly handle dual-parity "trust parity" flag.
-- fix 'bash' error in /etc/rc.d/rc.6 (shutdown) script.
-- Fix disks_mounted event generated after svcs_started.
-- Get rid of "Identify" operation.
-- Incorporate gfjardim suggestion to mark /mnt "shared" for better Docker integration.
-- upgrade process now copies/upgrades bzroot-gui and syslinux/syslinux.cfg-
-
-webGui:
-
-- docker: always show the 'Add another Path, Port or Variable' button
-- docker: export ports as variable if Network is set to host
-- docker: fix 'WebUI' content menu item now hidden when the web ui link is empty
-- docker: removed 'Dry Run' button on create/edit container page
-- docker: update pop-in dialogs to look better when using the Dynamix black theme
-- Do not display unassigned parity devices when array is Started.
-- fix context menu to escape non-safe css selector characters
-- fix when disk rebuild is complete, notification reports status "Canceled"
-- vm manager: Fix cdrom bus type to use SATA when machine type is Q35
-
-Version 6.2.0-beta18 2016-03-11
--------------------------------
-
-Changes vs. unRAID Server OS 6.1.9.
-
-Base distro:
-
-- switch to 'slackware64-current' base packages
-- avahi: version 0.6.32
-- beep: version 1.3
-- docker: version 1.10.2
-- eudev: version 3.1.5a: support NVMe
-- fuse: version 2.9.5
-- irqbalance: version 1.1.0
-- jemalloc: version 4.0.4
-- libestr: version 0.1.10
-- liblogging: version 1.0.5
-- libusb: version 1.0.20
-- libvirt: version 1.3.1
-- lshw: version B.02.17 svn2588
-- lz4: version r133
-- mozilla-firefox: version 44.0.2 (console GUI mode)
-- netatalk: version 3.1.8
-- numactl: version 2.0.11
-- php: version 5.6.19
-- qemu: version 2.5.0
-- rsyslog: version 8.16.0
-- samba:
-  - version: 4.3.5
-  - enable asynchronous I/O in /etc/samba/smb.conf
-  - remove 'max protocol = SMB3' from /etc/samba/smb.conf (automatic negotiation chooses the appropriate protocol)
-- spice: version 0.12.6
-- xorg-server: version 1.18.1
-- yajl: version 2.1.0
-
-Linux kernel:
-
-- version 4.4.4
-- default iommu to passthrough (iommu=pt)
-- kvm: enabled nested virtualization
-- unraid: array PQ support (dual-parity)
-
-Management:
-
-- Trial key now supports 6 devices, validates with limetech keyserver
-- Pro key supports max 30 array devices, unlimited attached devices
-- add 10Gb ethernet tuning in /etc/sysctl.conf
-- add tunable: md_write_method (so-called "turbo write")
-- array PQ support (dual-parity)
-- do not auto-start parity operation when Starting array in Maintenance mode
-- libvirt image file handling
-- stop md/unraid driver cleanly upon system poweroff/reset
-- support NVMe storage devices assignable to array and cache/pool
-- support USB storage devices assignable to array and cache/pool
-- system shares handling
-- misc other improvements and bug fixes
-
-webGui:
-
-- all fixes and enhancements from 6.1.9
-- added hardware profile page
-- added service status labels to docker and vm manager settings pages
-- docker: revamped docker container edit page (thanks gfjardim!)
-- docker: now using docker v2 index/repos
-- docker: updating a stopped container will keep it stopped upon completion
-- dyanmix-6.2: version 2016-03-11
-- reverse the negative logic in docker and libvirt image fsck confirmation
-- support user specified network MTU value
-- vm manager: usb3 controller support, improved usb device sorting and display
-- vm manager: integrated virtio driver iso downloader
-- vm manager: support nvidia with hyper-v for windows guests
-- vm manager: added auto option for vdisk location
-- misc other improvements and bug fixes
+- webGui: bug fix: Cannot manually specify virtIO iso in VM settings
+- webGui: other changes: refer to github commit log
 ]]>
 </CHANGES>
 

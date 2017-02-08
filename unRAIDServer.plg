@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
-<!ENTITY version   "6.3.0">
+<!ENTITY version   "6.3.1">
 <!ENTITY pluginURL "https://raw.github.com/limetech/&name;/master/&name;.plg">
 
 <!ENTITY category  "stable">
@@ -23,6 +23,29 @@
 <![CDATA[
 unRAID Server OS Change Log
 ===========================
+
+Version 6.3.1 2017-02-08
+------------------------
+
+Base distro:
+
+- apcupsd: version 3.14.14 (rev2 -- added modbus usb support)
+- gd: version 2.2.4 (CVE-2016-9317, CVE-2016-6912)
+- libusb-compat: version 0.1.5
+- qemu: version 2.7.1
+- samba: version 4.5.5
+
+Linux kernel:
+
+- version 4.9.8
+
+Management:
+
+- emhttp: fixed spurious "ioctl(SIOCGIFHWADDR): Bad address" appearing on Console
+- smb: permit NTLMv1 authentication
+- webGui: Add lsusb info to diagnostics
+- webGui: Fix regression assigning slots and devices
+- webGui: Fix regression generating SMART files for diagnostics
 
 Version 6.3.0 2017-02-02
 ------------------------

@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
-<!ENTITY version   "6.3.1">
+<!ENTITY version   "6.3.2">
 <!ENTITY pluginURL "https://raw.github.com/limetech/&name;/master/&name;.plg">
 
 <!ENTITY category  "stable">
@@ -23,6 +23,38 @@
 <![CDATA[
 unRAID Server OS Change Log
 ===========================
+
+Version 6.3.2 2017-02-16
+------------------------
+
+Base distro:
+
+- kernel-firmware: 20170210
+- openssl: version 1.0.2k (CVE-2017-3731, CVE-2017-3732, CVE-2016-7055)
+
+Linux kernel:
+
+- version 4.9.10
+- accraid: version 1.2.1-53005
+- added Chelsio Ethernet support (user request):
+  - CONFIG_NET_VENDOR_CHELSIO: Chelsio devices
+  - CHELSIO_T1_1G: Chelsio gigabit Ethernet support
+  - CONFIG_CHELSIO_T1: Chelsio 10Gb Ethernet support
+  - CONFIG_CHELSIO_T3: Chelsio Communications T3 10Gb Ethernet support
+  - CONFIG_CHELSIO_T4: Chelsio Communications T4/T5/T6 Ethernet support
+  - CONFIG_CHELSIO_T4VF: Chelsio Communications T4/T5/T6 Virtual Function Ethernet support
+- added F2FS support (user request):
+  - CONFIG_F2FS_FS: F2FS filesystem support
+  - CONFIG_F2FS_FS_XATTR: F2FS extended attributes
+  - CONFIG_F2FS_FS_POSIX_ACL: F2FS Access Control Lists
+
+Management:
+
+- emhttp: fixed regression passing ampersands in querystring
+- update hwdata/{pci.ids,usb.ids,oui.txt,manuf.txt}
+- webGui: Fix regression adding or changing user account images
+- webGui: provide per-share "vfs_fruit" optimization control under SMB security settings
+- webGui: reorganize how the device ids are displayed on the System Devices page
 
 Version 6.3.1 2017-02-08
 ------------------------

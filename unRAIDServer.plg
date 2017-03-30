@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
-<!ENTITY version   "6.3.2">
+<!ENTITY version   "6.3.3">
 <!ENTITY pluginURL "https://raw.github.com/limetech/&name;/master/&name;.plg">
 
 <!ENTITY category  "stable">
@@ -23,6 +23,48 @@
 <![CDATA[
 unRAID Server OS Change Log
 ===========================
+
+Version 6.3.3 2017-03-30
+------------------------
+
+Base distro:
+
+- reiserfsprogs: version 3.6.24 (downgrade to address reiserfsck regression)
+- samba: version 4.5.7 (CVE-2017-2619)
+
+Linux kernel:
+
+- version 4.9.19
+- added CONFIG_BLK_DEV_PCIESSD_MTIP32XX: Block Device Driver for Micron PCIe SSDs (user request)
+
+Management:
+
+- emhttp: get rid of SO_LINGER on connection socket
+- emhttp: override array autostart if safe boot mode
+- emhttp: silence "Transport endpoint is not connected" messages
+- emhttp: btrfs cache pool set to raid1 only on new pool creation
+- syslinux: include "unRAID OS GUI Safe Mode (no plugins)" boot option
+- update hwdata/{pci.ids,usb.ids,oui.txt,manuf.txt}
+- update_cron: generate system cron table only from installed plugins
+- webGui: Ignore mover log entries in color coding
+- webGui: Fixed wrong reference to Display Settings in Main page
+- webGui: Fixed: missing creating of eth10 settings page
+- webGui: Add in links to dashboard
+- webGui: SweetAlert bugfixes
+- webGui: Add tooltipster to dynamix and add a tooltip in DiskIO toggle at /Main
+- webGui: Fixed DNS server assignment when changing VLANs
+- webGui: Fixed DNS server assignment follows IP address assignment
+- webGui: Fixed incorrect display of BTRFS check for non-btrfs disks. Removed unused buttons.
+- webGui: Fixed missing csrf token and code optimizations in SMART report generation
+- webGui: Cleanup unused parameters when saving configuration files
+- webGui: Disk read/write IO in background daemon
+- webGui: Remove the old temp .plg file on remove
+- webGui: Remove href bookmarks on anchor elements
+- webGui: Provide control to initiate btrfs balance on btrfs-formatted array devices and single cache device.
+- webGui: Remove preset btrfs balance options; btrfs-raid1 is default only for initial creation of multi-device pool.
+- webGui: DeviceInfo shows all check/balance/scrub operations but greyed out depending on arry started state
+- webGui: Add lscpu output to diagnositics
+- webGui: toggling acs override will now apply to all boot options in syslinux.cfg
 
 Version 6.3.2 2017-02-16
 ------------------------
@@ -490,6 +532,12 @@ fi
 # if unRaid-6 replace the readme file
 if [ "${version:0:2}" == "6." ]; then
   echo "**REBOOT REQUIRED!**" &gt; /usr/local/emhttp/plugins/&name;/README.md
+fi
+# if unRaid-6.3 ensure GUI Safe Mode syslinux option exists
+if [ "${version:0:3}" == "6.3" ]; then
+  if ! grep -q 'initrd=/bzroot,/bzroot-gui unraidsafemode' /boot/syslinux/syslinux.cfg &amp;&gt; /dev/null ; then
+    sed -i 's|label Memtest86+|label unRAID OS GUI Safe Mode (no plugins)\r\n  kernel /bzimage\r\n  append initrd=/bzroot,/bzroot-gui unraidsafemode\r\nlabel Memtest86+|g' /boot/syslinux/syslinux.cfg &amp;&gt; /dev/null
+  fi
 fi
 # when upgrading any version prior to 6.2
 if [ "${version:0:3}" \&lt; "6.2" ]; then

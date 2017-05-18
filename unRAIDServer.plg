@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
-<!ENTITY version   "6.3.3">
+<!ENTITY version   "6.3.4">
 <!ENTITY pluginURL "https://raw.github.com/limetech/&name;/master/&name;.plg">
 
 <!ENTITY category  "stable">
@@ -23,6 +23,40 @@
 <![CDATA[
 unRAID Server OS Change Log
 ===========================
+
+Version 6.3.4 2017-05-14
+------------------------
+
+Base distro:
+
+- libedit: 20160903_3.1
+- libevent: 2.1.8
+- ncurses: 6.0
+- ntp: version 4.2.8p10 (CVE-2017-6464, CVE-2017-6463, CVE-2017-6458, CVE-2017-6460, CVE-2016-9042, CVE-2017-6462, CVE-2017-6451, CVE-2017-6455, CVE-2017-6452, CVE-2017-6459)
+- mozilla-firefox: version 53.0 (CVE-2017-5433, CVE-2017-5435, CVE-2017-5436, CVE-2017-5461, CVE-2017-5459, CVE-2017-5466, CVE-2017-5434, CVE-2017-5432, CVE-2017-5460, CVE-2017-5438, CVE-2017-5439, CVE-2017-5440, CVE-2017-5441, CVE-2017-5442, CVE-2017-5464, CVE-2017-5443, CVE-2017-5444, CVE-2017-5446, CVE-2017-5447, CVE-2017-5465, CVE-2017-5448, CVE-2016-10196, CVE-2017-5454, CVE-2017-5455, CVE-2017-5456, CVE-2017-5469, CVE-2017-5445, CVE-2017-5449, CVE-2017-5450, CVE-2017-5451, CVE-2017-5462, CVE-2017-5463, CVE-2017-5467, CVE-2017-5452, CVE-2017-5453, CVE-2017-5458, CVE-2017-5468, CVE-2017-5430, CVE-2017-5429)
+
+Linux kernel:
+
+- version 4.9.28
+- added QLogic Ethernet support (user request):
+  - CONFIG_QLA3XXX: QLogic QLA3XXX Network Driver Support
+  - CONFIG_QLCNIC: QLOGIC QLCNIC 1/10Gb Converged Ethernet NIC Support
+  - CONFIG_QLGE: QLogic QLGE 10Gb Ethernet Driver Support
+  - CONFIG_NETXEN_NIC: NetXen Multi port (1/10) Gigabit Ethernet NIC
+- md/unraid version: 2.7.2
+  - bug fix: if one disabled disk and another invalid disk, should not be able to unassign third disk
+
+Management:
+
+- create ntp and avahi users if missing
+- update smartmontools drivedb and hwdata/{pci.ids,usb.ids,oui.txt,manuf.txt}
+- emhttp: if valid old key on same usb flash device as Trial key, offer to replace key
+- emhttp: fix 'btrfs check' running status not detected correctly
+- webGui: fixed timing issue where sometimes a cache assignment would not be preserved
+- webGui: Upgrade tooltipster to version 4.2.3
+- webGui: Fixed file read errors when system is started but array is stopped
+- webGui: Fixed regression error in erroneous display of disk table on Dashboard
+- webGui: Registration page refinements
 
 Version 6.3.3 2017-03-30
 ------------------------

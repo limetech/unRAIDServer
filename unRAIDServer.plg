@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
-<!ENTITY version   "6.4.0">
+<!ENTITY version   "6.4.1">
 <!ENTITY category  "stable">
 <!ENTITY pluginURL "https://s3.amazonaws.com/dnld.lime-technology.com/&category;/&name;.plg">
 <!ENTITY zip       "https://s3.amazonaws.com/dnld.lime-technology.com/&category;/&name;-&version;-x86_64.zip">
@@ -16,254 +16,102 @@
 <PLUGIN  name="&name;"
          author="&author;"
          version="&version;"
+         category="&category;"
          pluginURL="&pluginURL;">
 
 <CHANGES>
 <![CDATA[
-Version: 6.4.0 2018-01-12
-=========================
+### Version 6.4.1 2018-02-02
 
-Linux kernel
-------------
+Summary:
 
-This release is running Linux kernel version 4.14.13 which contains
-patches to address the widely reported Meltdown and Spectre
-vulnerabilities.  This kernel fully mitigates against Meltdown,
-but full mitigation for Spectre is not yet complete and has not been
-publicly released as of this date.
+- The Linux kernel includes the "retpoline" patch set and we have recompiled using GCC 7.3. This
+addresses 'Spectre Variant 2'.
 
-Management Utility
-------------------
+- Added kernel patch to address GPU passthrough issue on AMD Threadripper.
 
-We now use the nginx webserver as the front-end to the unRAID OS
-Management Utility (aka, webGUI).  Incorporating nginx provides
-several benefits, including:
+- Following [guidance from Intel](https://newsroom.intel.com/news/root-cause-of-reboot-issue-identified-updated-guidance-for-customers-and-partners/)
+we have reverted Intel microde to the 2017-11-17 release.
 
-* Multi-threaded access results in much better response.
-* Websocket support.
-* SSL/TLS (https) support.
+- Refinements to SSL/TLS handling:
+  - When not using SSL/TLS (https), we no longer auto-redirect PORTSSL (443) to PORT (80).
+  - Added "Local TLD" configuration variable to specify your local top-level domain (default is "local").
 
-Moving forward, use of websockets will further improve webGUI
-functionality and responsiveness.  At present only the CPU Load
-Statistics on the Dashboard and the web-based Terminal application
-make use of websockets.
+- User *bonienl* added the possibility to remove or preserve user defined networks within Docker. This
+is for advanced users only (also explained in the Help text):
+  1. webGUI allows any interface without IP address to be used for Docker. This gives the user more possibilities.
+  2. Auto-generated interfaces may be included or excluded. This can help with potential conflicts.
 
-> **Note:** Unfortunately this functionality does not work with Safari.
+- Fixed bug related to improper handling of replacing device in btrfs cache pool, when the device being
+replaced is still installed in the server.  Note: there is no webGUI monitoring of *btrfs replace*
+operation in this release but you can monitor progress in the Log window.
 
-There is now a Logout button for the webGUI which appears on the right
-side of the menu bar when you have defined a root password and are
-logged in.  Clicking this will *log you out* from all tabs/windows in
-that browser.
+- Fixed bug where the server TLD is not formed correctly in the self-signed SSL cert.  After installing this
+release delete the self-signed cert `config/ssl/certs/<server-name>_unraid_bundle.pem` and then reboot to let
+unRAID OS regenerate a new one.
 
-Also new with this release are two new webGUI themes: Azure and
-Gray, along with numerous other bug fixes and improvements.
+- Disable "mover logging" by default for new installs. We recommend setting<br>
+Settings/Scheduler/Mover Settings/Mover Logging to Disabled.
 
-Secure Access
--------------
+- We are phasing in a series of VM Manager improvements.
 
-Secure webGUI access is now supported using the https protocol.  We
-offer two methods for dealing with the SSL certificate:
+Base distro:
 
-* Use of a self-signed certificate.
-* Use of a free SSL certificate provisioned by Let's Encrypt.
+- aaa_elflibs: version 14.2-x86_64-34
+- ca-certificates: version 20170717
+- curl: version 7.58.0 (CVE-2018-1000007, CVE-2018-1000005)
+- intel-microcode: version 20171117
+- kernel-firmware: version 20180118
+- mozilla-firefox: version 58.0.1 (CVE-2018-5091, CVE-2018-5092, CVE-2018-5093, CVE-2018-5094, CVE-2018-5095, CVE-2018-5097, CVE-2018-5098, CVE-2018-5099, CVE-2018-5100, CVE-2018-5101, CVE-2018-5102, CVE-2018-5103, CVE-2018-5104, CVE-2018-5105, CVE-2018-5106, CVE-2018-5107, CVE-2018-5108, CVE-2018-5109, CVE-2018-5110, CVE-2018-5111, CVE-2018-5112, CVE-2018-5113, CVE-2018-5114, CVE-2018-5115, CVE-2018-5116, CVE-2018-5117, CVE-2018-5118, CVE-2018-5119, CVE-2018-5121, CVE-2018-5122, CVE-2018-5090, CVE-2018-5189)
+- ttyd: version 1.4.0
 
-The selection of http/https and SSL certificate configuration is
-accomplished through the Settings/Identification page.
+Linux kernel:
 
-> **Note:**
-The `/usr/local/sbin/emhttp` line in your `/boot/config/go` file is no
-longer used to specify the ports where the webGUI listens for
-connections.  Instead you must configure these on the Identification
-page.  Alternately if you need to set this up prior to server boot,
-you may add the port settings in `/boot/config/ident.cfg`.  Please refer
-to `/usr/local/sbin/emhttp` script for more information if you care
-about this.
+- version 4.14.16, compiled with GCC-7.3 (CVE-2017-5715)
+- added patch for AMD Threadripper pci bridge reset
+- added config options:
+  - CONFIG_USB_EHCI_ROOT_HUB_TT: Root Hub Transaction Translators
+  - CONFIG_USB_EHCI_TT_NEWSCHED: Improved Transaction Translator scheduling
 
-Let's Encrypt SSL Certificates
-------------------------------
+Management:
 
-Lime Technology, Inc. has partnered with Let's Encrypt to provide free
-SSL certificates for all of our users.  To obtain your certificate
-first go to Settings/Identification page, set Use SSL/TLS to Auto and
-click Apply.
-
-Next, scroll to the bottom and click Provision.  In one operation this
-will allocate your certificate, upload it to your server, and switch
-nginx to redirect all http to https.  After clicking anywhere else in
-the webGUI you should see a nice green lock icon in your browser
-address bar!
-
-You will also notice in your address bar a very funny
-looking URL consisting of a 40-hex-character subdomain of unraid.net.
-We have set up a LimeTech DNS server that will resolve that URL to
-your servers IP address on your local network.  That FQDN is unique to
-your certificate.  When your browser resolves that URL it is given
-your local IP address which it then uses to perform the https
-connection handshake.
-
-Since Let's Encrypt SSL certificates expire every 90 days, we have
-included a background daemon that checks once per day if your
-certificate is within 30 days of expiration.  If so, we automatically
-renew and upload a new certificate for you.
-
-Finally, we have included another background daemon that checks every 10
-minutes for a change in your servers IP address.  If your IP address
-changes, then the DNS A-record for your server is updated.
-
-Device Encryption
------------------
-
-We have implemented full-device encryption as follows.  In unRAID,
-encryption is selected as another type of file system.  With array Stopped,
-click on a Device link and then click on File system type where you
-can selected encrypted versions of supported file system types:
-
-* xfs – encrypted
-* btrfs – encrypted
-* reiserfs – encrypted
-
-If you change any device file system type to encrypted, you will
-notice a section on the Main page appears where you must enter a
-passphrase or upload an encryption keyfile before you can Start the
-array.
-
-**DO NOT FORGET YOUR PASSPHRASE OR LOSE YOUR KEYFILE.**  Once a device is
-encrypted, if you forget your passphrase or lose your keyfile, your
-data is lost forever!
-
-Once you have Started the array, newly encrypted devices appear
-Unmountable and the Format button is available.  Formatting will
-result in creating an encrypted partition on those devices with the
-specified file system type.
-
-**ALL PREVIOUS DATA ON THAT DEVICE WILL BE DESTROYED.**  Hence it is not
-possible, in this release, to encrypt in-place.  We plan to add 
-a utility in a future release to accomplish this however.
-
-Also note that array Autostart following server boot will not succeed
-if any devices are encrypted.  This is because the passphrase or keyfile
-is kept in RAM and thus lost upon reboot.  This means
-that following system reboot you must log into the webGUI, enter your
-passphrase (or upload your encryption keyfile), and then click
-the Start button.
-
-In the case of a btrfs cache pool, all devices comprising the pool
-will be encrypted.
-
-UEFI support
-------------
-
-It is now possible configure UEFI boot mode to boot unRAID OS.  This
-may be enabled by clicking on the Flash device link from the Main
-page where you will find a checkbox to select UEFI boot mode.
-
-In addition, UEFI boot mode may be selected when a new USB Flash
-device is provisioned using the USB Creator tool.
-
-When using the manual method of preparing a USB Flash device, the
-make_bootable scripts will output a UEFI boot mode selection prompt.
-
-Web-based Terminal
-------------------
-
-We now have a web-based Terminal application available by clicking the
-Terminal button on the Menu bar.  You may also open
-the Terminal in a new tab by right-clicking the button.  This
-application makes use of websockets and appears to be quite fast,
-give it a try!
-
-> **NOTE:** Unfortunately the web-based Terminal app does not work with Safari.
-
-Update OS
----------
-
-Instead of bundling an unRAID Server plugin on the Plugins page,
-there is a new page on the Tools menu in the About section called
-Update OS.
-
-Here you can check for a new unRAID OS release as well
-as switch between the latest release in the **stable** branch or the latest
-release in the **next** (development) branch.
-
-In addition there is a separate control on the Notification
-Settings page that configures whether or not to automatically check
-for updates.
-
-Improved shfs/mover
--------------------
-
-The unRAID user share file system (shfs) has been improved in two
-areas.
-
-First, we now make use of FUSE read_buf/write_buf methods. This should
-result in significant throughput increases.
-
-Second, the mover script/move program no longer uses `rsync` to move
-files/directories between the cache pool and the parity array. Instead
-the move program invokes a new shfs `ioctl()` call.  This should
-result in complete preservation of all metadata including atime and
-mtime.
-
-Other
------
-
-* IPv6 support.  Entirely designed, coded, and tested by user *bonienl*
-who has greatly improved unRAID OS networking.
-
-* We now fully support *4Kn* devices, that is, devices with
-both 4096-byte physical and 4096-byte logical block sizes.
-
-* It used to be that merely Starting the array would re-write an *unRAID
-standard partition layout* on all devices assigned to the array. This
-has been changed so that nothing is written to a device
-unless Format is invoked (except for Parity devices – those will still
-be written upon array Start if parity sync is indicated).
-
-* Moving devices around between cache pool and array or unassigned is
-handled much better now.
-
-* Added Flash backup button on the Flash device info page
-(Main/Flash).  Click this button to download a zip file with the
-entire contents of your USB Flash boot device.  This zip file may be
-used to restore to a new unRAID USB Flash boot device either manually,
-or using the USB Creator tool.
-
-* We ported a simplified version of the `zenstates.py` utility to `C` (to
-avoid including python in bzroot) which may be used to
-disable Ryzen C6 states (as workaround for Ryzen idle freeze issue).
-We have found that sometimes bios option to disable C6
-does not exist or does not do the right thing.  If you want to use
-this utility, we suggest that you edit the `config/go` file
-on your USB flash device.  Add this line just before emhttp is invoked:
-
-    `zenstates --c6-disable`
-
-* Expanded driver support and more hardware monitoring support.
-
-* Kernel modules and firmware are now left on the Flash in a squashfs
-loopback and loaded into RAM on demand.
-
-* Many more misc. improvements
-
-Known Issues
-------------
-
-* Certain motherboards with on-board Aspeed IPMI graphics adaptors may
-lose video or switch to different colored text during the boot
-process.  To prevent this, add the `nomodeset` kernel option to your
-syslinux `append` line.
-
-* Some users report `vmwrite` syslog errors as a result of VM startup.
-This is a harmless message and can be ignored; however, please report
-if you see this.
-
-* AMD Ryzen CPU is known to freeze on linux-based distros and unRAID OS
-is no exception.  Disabling C6 state either in your bios or using our
-zenstates program seems to be the most reliable mitigation for this
-issue.  Maybe some day AMD will fix this.
-
-* AMD Threadripper GPU passthrough to VM's does not work reliably.
-This is an AMD bug, maybe some day they'll fix it.
+- bug fix: server TLD not formed correctly in self-signed SSL cert.
+- bug fix: primary IP address not correct in login greeting when there are two or more ethX but not using a bond or bridge.
+- bug fix: navigating to localhost with Firefox in desktop gui mode when no dns servers are configured
+- bug fix: rsyslogd: warning: ~ action is deprecated
+- bug fix: exclude user plugins from cron in safemode
+- update smartmontools drivedb and hwdata/{pci.ids,usb.ids,oui.txt,manuf.txt}
+- docker: rebuild networks upon restart
+- emhttp: add "Local TLD" configuration setting
+- emhttp: bug fix: array Start hang if empty MEDIADIR
+- emhttp: bug fix: handle btrfs cache pool replace device case
+- mover: disable logging by default
+- nginx: when SSL not in use, do not listen on https PORT
+- rsyslogd: suppress nginx message 'user "logout" was not found in "/etc/nginx/htpasswd"'
+- rsyslogd: suppress UpdateDNS message 'Error: Nothing to do'
+- shfs: less verbose logging
+- webgui: Add installed plugins & version to diagnostics
+- webgui: List users alphabetically
+- webgui: New Docker option to remove or preserve user defined networks
+- webgui: Show History button when parity operation in progress
+- webgui: Correct system information for systems with >= 1TB of RAM memory
+- webgui: Included SMART attribute 199
+- webgui: UpdateOS should fetch unRAIDServer.plg from LimeTech download site instead of from github                            
+- webgui: Switch to font-awesome for delete template on add Container
+- webgui: Updated jquery tablesorter to v2.29.4
+- webgui: docker: improve escaping arguments to docker create/run
+- webgui: Add in Support & Project Links to Docker Context Menus
+- webgui: Add warning about running New Perms against appdata share
+- webgui: Disable array STOP button when BTRFS operation is running 
+- webgui: Round size in parity operation progress indicators 
+- webgui: Give warning when non-recommended HTTP or HTTPS ports are chosen 
+- webgui: Enhancements for docker custom networks
+- webgui: Docker settings enhancements
+- webgui: vm manager: shrink width separating cpu core checkboxes to prevent clipping on linux desktops (gtk3)
+- webgui: vm manager: remove Log column
+- webgui: vm manager: Only show VM Templates when Adding a VM
+- webgui: vm manager: improve table vertical alignment with page header
+- webgui: vm manager: re-style vm list and sublist elements
 ]]>
 </CHANGES>
 

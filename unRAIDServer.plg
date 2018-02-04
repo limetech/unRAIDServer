@@ -332,6 +332,7 @@ else
   echo "Cannot remove, no previous version"
   exit 1
 fi
+rm -rf /boot/config/plugins/dynamix.plg
 echo "syncing..."
 sync
 echo "Remove successful - PLEASE REBOOT YOUR SERVER"

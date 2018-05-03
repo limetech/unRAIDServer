@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
-<!ENTITY version   "6.5.0">
+<!ENTITY version   "6.5.1">
 <!ENTITY category  "stable">
 <!ENTITY pluginURL "https://s3.amazonaws.com/dnld.lime-technology.com/&category;/&name;.plg">
 <!ENTITY zip       "https://s3.amazonaws.com/dnld.lime-technology.com/&category;/&name;-&version;-x86_64.zip">
@@ -21,206 +21,166 @@
 
 <CHANGES>
 <![CDATA[
-### Version 6.5.0 2018-03-13
+### Version 6.5.1 2018-04-21
 
-The primary purpose of this release is to update the Linux kernel to the latest version which completes
-mitigation for Meltdown/Spectre vulnerabilities.  In addtion we have updated a number of base packages,
-made several UI improvements, especially in the VM and Docker Managers, and fixed a number of bugs.
+This is primarily a bug fix/maintenance update.  Here are some highlights:
+
+- Includes the latest LTS (Long Term Support) linux kernel and Intel microcode for latest
+Spectre/Meltdown mitigations.
+- We downgraded docker from 17.12.1 to 17.09.1 in order to improve compatibility. We anticipate
+upgrading docker to 18.03.x in next unRAID OS minor release series.
+- There have been numerous improvements to VM and Docker Managers as well as several bug fixes and
+improvements throughout the webGUI.
 
 Due to security updates **all users are encouraged to update**.
 
-Summary:
-
-- For new installations, we now reference Google public NTP servers instead of pool.ntp.org.
-- Updated linux kernel includes more patches related to Meltdown/Spectre.
-- Refreshed base packages to latest versions.
-- We added a workaround for Safari to display CPU Load Statistics correctly.
-- Resident network guru *bonienl* continues to make networking refinements:
-  - Fixed default gateway with different metrics. Now same gateway with multiple metrics properly set up
-  - Fixed route_up and route_down functions. Now adding and removing routes handles IPv6 link local addresses and it is allowed to add the same route multiple times with different metric and interface.
-  - Routing table shows interface name too with default routes
-  - Network settings page is updated thru a websocket (/sub/dhcp), this ensures info is always present. Another nice advantage of websockets.
-  - Cleanup of network.cfg file. Only necessary settings are stored. This greatly reduces the number of entries.
-  - Some fixes in the network settings page itself, better user experience.
-  - IPv6 routes have their own metric value, can be set independently of IPv4
-  - Docker fixes for custom networks
-  - Some code cleanup
-- Another nice feature added by *bonienl* is the ability to downgrade to the previous unRAID-OS release.
-- Upgraded noVNC. This is very much improved, give it a try!
-- Other misc. bug fixes.
-
 Base distro:
 
-- adwaita-icon-theme: version 3.26.1
-- appres: version 1.0.5
-- at-spi2-core: version 2.26.2
-- atk: version 2.26.1
-- bash: version 4.4.019
-- btrfs-progs: version v4.15.1
-- cairo: version 1.15.10
-- coreutils: version 8.29
-- cyrus-sasl: version 2.1.26 (rev3)
-- dbus: version 1.12.6
-- dhcpcd: version 7.0.1
-- docker: version 17.12.1
-- e2fsprogs: version 1.43.9
-- editres: version 1.0.7
-- etc: version 15.0
-- ethtool: version 4.15
-- eudev: version 3.2.5
-- freetype: version 2.9
-- fuse: version 2.9.7 (inline_name size 64 patch)
-- gawk: version 4.2.1
-- glib2: version 2.54.3
-- glibc-solibs: version 2.27
-- glibc-zoneinfo: version 2018c
-- glibc: version 2.27
-- gnutls: version 3.6.2
-- gtk+3: version 3.22.28
-- guile: version 2.2.3
-- gzip: version 1.9
-- harfbuzz: version 1.7.6
-- hdparm: version 9.54
-- hostname: version 3.18
-- htop: version 2.1.0
-- icu4c: version 60.2
-- inetd: version 1.79s (rev10)
-- iproute2: version 4.15.0
-- iptables: version 1.6.2
+- curl: version 7.59.0 (CVE-2018-1000120, CVE-2018-1000121, CVE-2018-1000122)
+- dmidecode: version 3.1
+- dnsmasq: version 2.79
+- docker: version 17.09.1 (downgrade from version 17.12.1)
+- e2fsprogs: version 1.44.0
+- fontconfig: version 2.12.6
+- hdparm: version 9.55
+- intel-microcode: version 20180312
 - kernel-firmware: version 20180222_7344ec9
-- kmod: version 25
-- less: version 530
-- libXcursor: version 1.1.15
-- libXfont2: version 2.0.3
-- libXres: version 1.2.0
-- libdrm: version 2.4.91
-- libevdev: version 1.5.8
-- libfastjson: version 0.99.8
-- libgcrypt: version 1.8.2
-- libjpeg-turbo: version 1.5.3
-- libmnl: version 1.0.4 (rev2)
-- libnftnl: version 1.0.9
-- libpciaccess: version 0.14
-- librsvg: version 2.42.3
-- libseccomp: version 2.3.3
-- libtasn1: version 4.13
-- libunistring: version 0.9.9
-- libvirt-php: version 0.5.4 (rev2)
-- libvirt: version 4.0.0
-- libxcb: version 1.13
-- libxml2: version 2.9.7
-- libxshmfence: version 1.3
-- libxslt: version 1.1.32
-- listres: version 1.0.4
-- logrotate: version 3.13.0
-- lsof: version 4.90
-- lvm2: version 2.02.176
-- lxterminal: version 0.3.1
-- lz4: version 1.8.1.2
-- mc: version 4.8.20
-- mesa: version 17.3.6
-- mkfontscale: version 1.1.3
-- mpfr: version 4.0.1
-- nano: version 2.9.3
-- net-tools: version 20170208_479bb4a
-- nettle: version 3.4
-- network-scripts: version 15.0 (rev6)
-- ntp: version 4.2.8p11 (CVE-2016-1549, CVE-2018-7182, CVE-2018-7170, CVE-2018-7184, CVE-2018-7185)
-- openldap-client: version 2.4.45
-- p11-kit: version 0.23.10
-- pango: version 1.40.14
-- patch: version 2.7.6
-- pciutils: version 3.5.6
-- php: version 7.2.3
-- pkgtools: version 15.0 (rev5)
-- qemu: version 2.11.1
-- rpcbind: version 0.2.4 (rev3)
-- rsync: version 3.1.3 (CVE-2017-16548, CVE-2018-5764)
-- rsyslog: version 8.33.0
-- samba: version 4.7.6 (CVE-2018-1050, CVE-2018-1057)
-- shadow: version 4.2.1 (rev3)
-- shared-mime-info: version 1.9
-- smartmontools: version 6.6
-- spice-protocol: version 0.12.13
-- spice: version 0.14.0
-- sqlite: version 3.22.0
-- sudo: version 1.8.22
-- sysvinit-scripts: version 2.1 (rev6)
-- talloc: version 2.1.11
-- tar: version 1.30
-- tdb: version 1.3.15
-- tevent: version 0.9.36
-- traceroute: version 2.1.0
-- usbutils: version 009
-- util-linux: version 2.31.1
-- vte3: version 0.44.3
-- wget: version 1.19.4 (rev2)
-- xdriinfo: version 1.0.6
-- xf86-video-vesa: version 2.4.0
-- xfsprogs: version 4.15.1
-- xkbcomp: version 1.4.1
-- xkeyboard-config: version 2.22
-- xorg-server: version 1.19.6
-- xterm: version 331
+- libevdev: version 1.5.9
+- libtirpc: version 1.0.3
+- libxml2: version 2.9.8
+- logrotate: version 3.14.0
+- mozilla-firefox: version 59.0.1 (CVE-2018-5127, CVE-2018-5128, CVE-2018-5129, CVE-2018-5130, CVE-2018-5131, CVE-2018-5132, CVE-2018-5133, CVE-2018-5134, CVE-2018-5135, CVE-2018-5136, CVE-2018-5137, CVE-2018-5138, CVE-2018-5140, CVE-2018-5141, CVE-2018-5142, CVE-2018-5143, CVE-2018-5126, CVE-2018-5125, CVE-2018-5146, CVE-2018-5147)
+- nano: version 2.9.4
+- nginx: version 1.13.11 (with nchan: version 1.1.14)
+- openssl: version 1.0.2o (CVE-2018-0739)
+- openssl-solibs: version 1.0.2o (CVE-2018-0739)
+- samba: version 4.7.7
+- sysvinit-scripts: version 2.1 (rev7)
+- transset: version 1.0.2
+- xinit: version 1.4.0
+- xkill: version 1.0.5
+- xload: version 1.1.3
+- xlsclients: version 1.1.4
+- xmessage: version 1.0.5
+- xprop: version 1.2.3
+- xrdb: version 1.1.1
+- xrefresh: version 1.0.6
+- xset: version 1.2.4
+- xsetroot: version 1.1.2
+- xsm: version 1.0.4
+- xwd: version 1.0.7
+- xwininfo: version 1.1.4
+- xwud: version 1.0.5
 
 Linux kernel:
 
-- version 4.14.26
-  - with scsi rcu patch: https://patchwork.kernel.org/patch/10236213/
+- version 4.14.35
+- out-of-tree drivers:
+  - intel ixgbe: version 5.3.6
+  - intel ixgbevf: version 4.3.4
 
 Management:
 
-- accommodate buggy dhcp servers which hand out a single host IPv6 address 
-- fix desktop gui mode by re-enabling graphics compositing due to new mesa version
-- hide php warnings for now since php 7.2 is more strict
-- shfs: support run-time logging level change
-- upon upgrade strip metric value from GATEWAY if present
+- Ensure hostname contains only valid NETBIOS characters
+- Yet another mover logging fix
+- emhttp: fix possible divide by zero error in cacluating cpustats
+- mover: Regression: fix "mover: started/finished" message not output when mover logging enabled
+- samba: set 'allocation roundup size = 4096' in /etc/samba/smb.conf (fix inaccurate file usage vs. disk usage reporting)
 - update smartmontools drivedb and hwdata/{pci.ids,usb.ids,oui.txt,manuf.txt}
-- webgui: noVNC: version 1.0.0
-- webgui: tablesorter: version v2.29.6 and fixed sorting issue in browser
-- webgui: Miscellaneous corrections and optimizations
-- webgui: Make "waiting" message consistent across all pages
-- webgui: Corrected wrong menu references in Dashboard Apps
-- webgui: Corrected memory display on Dashboard page
-- webgui: Link to Schedule from Array Operations
-- webgui: Prevent text overlapping input boxes on Edit Docker Page
-- webgui: Don't show Template Dropdown in Add Container when referrer is Community Applications
-- webgui: Update app icons container slidedown speed
-- webgui: Load docker and vm lists in background to speed up rendering
-- webgui: Update plugins table inline instead of rebuilding  the complete list
-- webgui: Disable buttons while containers/vms are started or stopped
-- webgui: Rearrange buttons on Docker overview page
-- webgui: Add ALL VMs start & stop operation
-- webgui: Allow VM + Docker restart with animation
-- webgui: Narrow LOG column in Docker list
-- webgui: Increase VM wait for shutdown time to 20s
-- webgui: Added user preference for VM list
-- webgui: Plugin manager code optimization
-- webgui: Standardize VM folder structure, other code cleanup
-- webgui: Improved docker used ports and IPs list
-- webgui: Enhancements to Docker settings and overview
-- webgui: Fixed regression error in Docker settings
-- webgui: Fixed version/date extraction in previous unRAID version
-- webgui: Corrected PHP warnings
-- webgui: dashboard cpu bar updates using Safari browser (now uses SSE instead of Websockets)
-- webgui: Add ability for pluginMan to not install the .plg file
-- webgui: Enhancements to Docker custom network settings
-- webgui: enhancement to diagnostics: Don't anonymize system share names (such as appdata,domains,isos,system)
-- webgui: Fixed container update hanging when network doesn't exist
-- webgui: network refinements
-- webgui: docker: support special characters in webGUI, Support and Project Context menus
-- webgui: Add controls to enable/disable and specify custom ports for TELNET and SSH
-- webgui: Permit up to 4 NTP servers to be configured.
-- webgui: Add "Downgrade to previous version" selection
-- webgui: Add "Start Page" selection
-- webgui: vm manager: remove obsolete on-hover comment about Nvidia and Hyper-V on VM Edit page
-- webgui: vm manager: VM Edit: Hide Cdrom bus dropdown if cdrom is blank
-- webgui: vm manager: VM Edit: improve usb3 option prevention when windows 7/xp are detected
-- webgui: vm manager: VM Edit: allow specifying ROM BIOS for Graphics Cards
-- webgui: vm manager: VM Edit: added new qemu-xhci usb controller option; rearranged usb controller dropdown on vm edit page
-- webgui: vm manager: VM Edit: basic/advanced view toggle replaced with form/xml view
-- webgui: vm manager: VM Edit: removed help regarding usb hotplug not supported yet
-- webgui: vm manager: VM Settings: added vm action upon host shutdown, either Shutdown VMs or Hibernate VMs
+- webgui: Added confirmation question before upgrading unRAID OS
+- webgui: Fixed next parity schedule indicator on dashboard page: when no 2nd parity disk
+- webgui: Added placeholder to MTU size with automatic detection
+- webgui: Fixed: encode container names in update all command
+- webgui: Docker: improved processing of custom network types
+- webgui: Added custom bridge networks in dropdown list of container network choices
+- webgui: Fixed hide DNSv6 entries when empty
+- webgui: VM Manager: Allow USB3 controllers to have 15 ports by default instead of 4
+- webgui: Add missing csrf_token when adding new container
+- webgui: Added next parity schedule indicator on dashboard page
+- webgui: Update cron when removing a plugin
+- webgui: Nchan/Nginx: Use long polling for Safari and websockets for all other browsers
+- webgui: Fixed DockerCreate regression error
+- webgui: Docker: optimized URL caching
+- webgui: Docker settings: improved IP format checking
+- webgui: Fixed ContainerManager regression error
+- webgui: Make "bridge" first network choice in new container creation
+- webgui: Added  warning when system notifications are disabled
+- webgui: Hide settings when interface is member of a bond or bridge
+  - Bond/bridge membership is shown before interface state
+- webgui: Fixed orphan images not shown when no containers defined
+- webgui: Fixed missing protocol type in container list
+- webgui: Fixed missing .txt extension in SMART report files
+- webgui: Docker enhancements and corrections
+  - delete cache files when container is deleted
+  - improved handling of user defined networks
+  - optimized reading of container and image settings
+  - improved handling of container IP address assignment
+  - code optimization and consistency
+- webgui: Fixed select color for themes white and black
+- webgui: DockerCreate: show unassigned IP addresses as 0.0.0.0
+- webgui: VM Machines: get rid of the Actions column
+- webgui: VMs: allow SCSI bus type selection for disks and cdroms
+- webgui: Fixed display of error codes in SWAL
+- webgui: VMmachine updates
+  - changed DETACH is available when VM is running
+  - default bus to VirtIO
+  - minor layout changes
+- webgui: Docker only remove icons when container/image is deleted
+- webgui: DockerClient: sort container names alphabetically and port numbers numerically
+- webgui: Sort unassigned devices by disk size, disk model, disk name
+  - This groups disks together by size, followed by same model, and lastly their assigned name (sdX)
+- webgui: Dokcer combine used ports and ips in single list
+- webgui: Fixed: dashboard apps, properly initialize menu variable
+- webgui: Reduced container list to one call to docker only for all containers at once
+- webgui: Fixed VM 'detach' button
+- webgui: Add short delay in array list update after spin up/spin down of disk
+- webgui: Fix Create Docker php warning
+- webgui: Diagnostic improvements
+- webgui: Fixed false "next" announcement when on "stable " release
+- webgui: Fixed removal of container and updating of json file
+- webgui: Restore Apply button to previous behavior
+- webgui: Docker add/edit: corrected list of exposed ports and assigned IPs
+- webgui: Docker: unrestricted edit in authoring mode
+- webgui: VM manager: fix increasing vdisk size
+- webgui: Added "Update all Plugins" button to plugins page
+- webgui: Execute docker commands with timeout
+- webgui: Do version checking on source file loading
+- webgui: Set vertical scroll bar only in VM dropdown file lists
+- webgui: Fixed disk share cycling
+- webgui: Made "spinner" consistent in every display theme
+- webgui: Plug Security Hole In Docker Template PostArgs
+- webgui: Wording change on a error returned by plugin manager
+- webgui: Docker: remove BOND members from custom network list
+- webgui: DockerClient: improved caching
+- webgui: Show zero source address when container is stopped
+- webgui: Regression: fix network mode in container list
+- webgui: Regression: fix container sorting
+- webgui: Regression: return LOG display as before in docker list
+- webgui: Add "reset sorting" to docker and VM list
+- webgui: Allow user sorting preference for containers and VMs
+  - Sorting preference also dictates the sequence in which containers and VMs are started and stopped (reversed)
+- webgui: Fixed regression error in plugin updates
+- webgui: Fixed port mapping of user defined networks
+- webgui: Fixes and improvements for Docker
+  - fixed deletion of orphan images
+  - inline list update when removing container or image
+  - fixed list updating after execution error
+  - added animation when removing container or image
+  - delete old xml file when container is renamed
+  - fixed IP assignment with multiple containers based on the same image
+- webgui: Fixed VM list updating when VM is deleted
+- webgui: Added ability to remove downloaded virtio iso files from the VM Settings page
+- webgui: Allow concurrent virtio iso downloads on VM Settings page; fix progress display upon page refresh
+- webgui: Docker: Don't automatically update webUI entry on templates
+- webgui: Make disk spin up/down inline without refresh of complete page
+- webgui: Docker Security: Remove any present script and iframe tags from all elements in a template
+- webgui: Docker: Don't automatically update webUI entry on templates
+- webgui: VM manager: replace pause icon for refresh when updating
+- webgui: Change animation to spinning "refresh"
+- webgui: Minor correction: let container list start in basic view with collapsed rows when no cookie is set yet
+- webgui: Fix "Schedule" reference in tabbed/non-tabbed mode and return to Main page
+- webgui: Do Clear Statistics inline without complete page refresh
+- webgui: Fixed wrong cpu references in popup window in VM list
 ]]>
 </CHANGES>
 

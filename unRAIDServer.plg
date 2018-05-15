@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
-<!ENTITY version   "6.5.1">
+<!ENTITY version   "6.5.2">
 <!ENTITY category  "stable">
 <!ENTITY pluginURL "https://s3.amazonaws.com/dnld.lime-technology.com/&category;/&name;.plg">
 <!ENTITY zip       "https://s3.amazonaws.com/dnld.lime-technology.com/&category;/&name;-&version;-x86_64.zip">
@@ -21,166 +21,45 @@
 
 <CHANGES>
 <![CDATA[
-### Version 6.5.1 2018-04-21
-
-This is primarily a bug fix/maintenance update.  Here are some highlights:
-
-- Includes the latest LTS (Long Term Support) linux kernel and Intel microcode for latest
-Spectre/Meltdown mitigations.
-- We downgraded docker from 17.12.1 to 17.09.1 in order to improve compatibility. We anticipate
-upgrading docker to 18.03.x in next unRAID OS minor release series.
-- There have been numerous improvements to VM and Docker Managers as well as several bug fixes and
-improvements throughout the webGUI.
-
-Due to security updates **all users are encouraged to update**.
+### Version 6.5.2 2018-05-15
 
 Base distro:
 
-- curl: version 7.59.0 (CVE-2018-1000120, CVE-2018-1000121, CVE-2018-1000122)
-- dmidecode: version 3.1
-- dnsmasq: version 2.79
-- docker: version 17.09.1 (downgrade from version 17.12.1)
-- e2fsprogs: version 1.44.0
-- fontconfig: version 2.12.6
-- hdparm: version 9.55
-- intel-microcode: version 20180312
-- kernel-firmware: version 20180222_7344ec9
-- libevdev: version 1.5.9
-- libtirpc: version 1.0.3
-- libxml2: version 2.9.8
-- logrotate: version 3.14.0
-- mozilla-firefox: version 59.0.1 (CVE-2018-5127, CVE-2018-5128, CVE-2018-5129, CVE-2018-5130, CVE-2018-5131, CVE-2018-5132, CVE-2018-5133, CVE-2018-5134, CVE-2018-5135, CVE-2018-5136, CVE-2018-5137, CVE-2018-5138, CVE-2018-5140, CVE-2018-5141, CVE-2018-5142, CVE-2018-5143, CVE-2018-5126, CVE-2018-5125, CVE-2018-5146, CVE-2018-5147)
-- nano: version 2.9.4
-- nginx: version 1.13.11 (with nchan: version 1.1.14)
-- openssl: version 1.0.2o (CVE-2018-0739)
-- openssl-solibs: version 1.0.2o (CVE-2018-0739)
-- samba: version 4.7.7
-- sysvinit-scripts: version 2.1 (rev7)
-- transset: version 1.0.2
-- xinit: version 1.4.0
-- xkill: version 1.0.5
-- xload: version 1.1.3
-- xlsclients: version 1.1.4
-- xmessage: version 1.0.5
-- xprop: version 1.2.3
-- xrdb: version 1.1.1
-- xrefresh: version 1.0.6
-- xset: version 1.2.4
-- xsetroot: version 1.1.2
-- xsm: version 1.0.4
-- xwd: version 1.0.7
-- xwininfo: version 1.1.4
-- xwud: version 1.0.5
-
+- Replace lxterminal with sakura version 3.5.0
+- intel-microcode: version 20180425
+- mozilla-firefox: version 60.0 (CVE-2018-5150, CVE-2018-5151, CVE-2018-5152, CVE-2018-5153, CVE-2018-5154, CVE-2018-5155, CVE-2018-5157, CVE-2018-5158, CVE-2018-5159, CVE-2018-5160, CVE-2018-5163, CVE-2018-5164, CVE-2018-5165, CVE-2018-5166, CVE-2018-5167, CVE-2018-5168, CVE-2018-5169, CVE-2018-5172, CVE-2018-5173, CVE-2018-5174, CVE-2018-5175, CVE-2018-5176, CVE-2018-5177, CVE-2018-5180, CVE-2018-5181, CVE-2018-5182)
+- php: version 7.2.5 (CVE-2018-10545, CVE-2018-10546, CVE-2018-10547, CVE-2018-10548, CVE-2018-10549)
+- smartmontools: update drivedb and hwdata/{pci.ids,usb.ids,oui.txt,manuf.txt}
+    
 Linux kernel:
 
-- version 4.14.35
-- out-of-tree drivers:
-  - intel ixgbe: version 5.3.6
-  - intel ixgbevf: version 4.3.4
+- version 4.14.40
+- added driver:
+  - CONFIG_PATA_SIL680: CMD / Silicon Image 680 PATA support
 
 Management:
 
-- Ensure hostname contains only valid NETBIOS characters
-- Yet another mover logging fix
-- emhttp: fix possible divide by zero error in cacluating cpustats
-- mover: Regression: fix "mover: started/finished" message not output when mover logging enabled
-- samba: set 'allocation roundup size = 4096' in /etc/samba/smb.conf (fix inaccurate file usage vs. disk usage reporting)
-- update smartmontools drivedb and hwdata/{pci.ids,usb.ids,oui.txt,manuf.txt}
-- webgui: Added confirmation question before upgrading unRAID OS
-- webgui: Fixed next parity schedule indicator on dashboard page: when no 2nd parity disk
-- webgui: Added placeholder to MTU size with automatic detection
-- webgui: Fixed: encode container names in update all command
-- webgui: Docker: improved processing of custom network types
-- webgui: Added custom bridge networks in dropdown list of container network choices
-- webgui: Fixed hide DNSv6 entries when empty
-- webgui: VM Manager: Allow USB3 controllers to have 15 ports by default instead of 4
-- webgui: Add missing csrf_token when adding new container
-- webgui: Added next parity schedule indicator on dashboard page
-- webgui: Update cron when removing a plugin
-- webgui: Nchan/Nginx: Use long polling for Safari and websockets for all other browsers
-- webgui: Fixed DockerCreate regression error
-- webgui: Docker: optimized URL caching
-- webgui: Docker settings: improved IP format checking
-- webgui: Fixed ContainerManager regression error
-- webgui: Make "bridge" first network choice in new container creation
-- webgui: Added  warning when system notifications are disabled
-- webgui: Hide settings when interface is member of a bond or bridge
-  - Bond/bridge membership is shown before interface state
-- webgui: Fixed orphan images not shown when no containers defined
-- webgui: Fixed missing protocol type in container list
-- webgui: Fixed missing .txt extension in SMART report files
-- webgui: Docker enhancements and corrections
-  - delete cache files when container is deleted
-  - improved handling of user defined networks
-  - optimized reading of container and image settings
-  - improved handling of container IP address assignment
-  - code optimization and consistency
-- webgui: Fixed select color for themes white and black
-- webgui: DockerCreate: show unassigned IP addresses as 0.0.0.0
-- webgui: VM Machines: get rid of the Actions column
-- webgui: VMs: allow SCSI bus type selection for disks and cdroms
-- webgui: Fixed display of error codes in SWAL
-- webgui: VMmachine updates
-  - changed DETACH is available when VM is running
-  - default bus to VirtIO
-  - minor layout changes
-- webgui: Docker only remove icons when container/image is deleted
-- webgui: DockerClient: sort container names alphabetically and port numbers numerically
-- webgui: Sort unassigned devices by disk size, disk model, disk name
-  - This groups disks together by size, followed by same model, and lastly their assigned name (sdX)
-- webgui: Dokcer combine used ports and ips in single list
-- webgui: Fixed: dashboard apps, properly initialize menu variable
-- webgui: Reduced container list to one call to docker only for all containers at once
-- webgui: Fixed VM 'detach' button
-- webgui: Add short delay in array list update after spin up/spin down of disk
-- webgui: Fix Create Docker php warning
-- webgui: Diagnostic improvements
-- webgui: Fixed false "next" announcement when on "stable " release
-- webgui: Fixed removal of container and updating of json file
-- webgui: Restore Apply button to previous behavior
-- webgui: Docker add/edit: corrected list of exposed ports and assigned IPs
-- webgui: Docker: unrestricted edit in authoring mode
-- webgui: VM manager: fix increasing vdisk size
-- webgui: Added "Update all Plugins" button to plugins page
-- webgui: Execute docker commands with timeout
-- webgui: Do version checking on source file loading
-- webgui: Set vertical scroll bar only in VM dropdown file lists
-- webgui: Fixed disk share cycling
-- webgui: Made "spinner" consistent in every display theme
-- webgui: Plug Security Hole In Docker Template PostArgs
-- webgui: Wording change on a error returned by plugin manager
-- webgui: Docker: remove BOND members from custom network list
-- webgui: DockerClient: improved caching
-- webgui: Show zero source address when container is stopped
-- webgui: Regression: fix network mode in container list
-- webgui: Regression: fix container sorting
-- webgui: Regression: return LOG display as before in docker list
-- webgui: Add "reset sorting" to docker and VM list
-- webgui: Allow user sorting preference for containers and VMs
-  - Sorting preference also dictates the sequence in which containers and VMs are started and stopped (reversed)
-- webgui: Fixed regression error in plugin updates
-- webgui: Fixed port mapping of user defined networks
-- webgui: Fixes and improvements for Docker
-  - fixed deletion of orphan images
-  - inline list update when removing container or image
-  - fixed list updating after execution error
-  - added animation when removing container or image
-  - delete old xml file when container is renamed
-  - fixed IP assignment with multiple containers based on the same image
-- webgui: Fixed VM list updating when VM is deleted
-- webgui: Added ability to remove downloaded virtio iso files from the VM Settings page
-- webgui: Allow concurrent virtio iso downloads on VM Settings page; fix progress display upon page refresh
-- webgui: Docker: Don't automatically update webUI entry on templates
-- webgui: Make disk spin up/down inline without refresh of complete page
-- webgui: Docker Security: Remove any present script and iframe tags from all elements in a template
-- webgui: Docker: Don't automatically update webUI entry on templates
-- webgui: VM manager: replace pause icon for refresh when updating
-- webgui: Change animation to spinning "refresh"
-- webgui: Minor correction: let container list start in basic view with collapsed rows when no cookie is set yet
-- webgui: Fix "Schedule" reference in tabbed/non-tabbed mode and return to Main page
-- webgui: Do Clear Statistics inline without complete page refresh
-- webgui: Fixed wrong cpu references in popup window in VM list
+- webgui: Fixed calculation of next custom parity schedule
+- webgui: Suppress Docker PHP error if container has no ports exposed or utilized
+- webgui: Docker skip hidden files when listing directories
+- webgui: Adjusted TAB color styling for all themes
+- webgui: Added branch type to previous version
+- webgui: Suppress auto generated hyperlinks by MS Edge
+- webgui: Docker: added pause/resume commands & container console window
+- webgui: Added: Docker Pause/Resume all Containers buttons
+- webgui: Make sorting of Docker and VM list draggable
+- webgui: Fixed column count in Docker container list
+- webgui: CSS correction VM list for themes white and black
+- webgui: Add class A (/8) network mask
+- webgui: Smart syslinux configuration
+- webgui: Syslinux config: basic and advanced mode
+- webgui: Make SMB extra auto sizeable
+- webgui: Add support for Docker Labels to Docker plugin
+- webgui: Add release notes to version string in header
+- webgui: Fixed incorrect display of memory size on dashboard
+  - Memory size is incorrectly displayed when a parity check is running
+- webgui: Fixed regression error in docker_cfg file
+- webgui: Minor style adjustment for Docker containers and VMs
 ]]>
 </CHANGES>
 

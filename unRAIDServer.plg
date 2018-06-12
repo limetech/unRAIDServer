@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "unRAIDServer">
 <!ENTITY author    "LimeTech">
-<!ENTITY version   "6.5.2">
+<!ENTITY version   "6.5.3">
 <!ENTITY category  "stable">
 <!ENTITY pluginURL "https://s3.amazonaws.com/dnld.lime-technology.com/&category;/&name;.plg">
 <!ENTITY zip       "https://s3.amazonaws.com/dnld.lime-technology.com/&category;/&name;-&version;-x86_64.zip">
@@ -21,45 +21,22 @@
 
 <CHANGES>
 <![CDATA[
-### Version 6.5.2 2018-05-15
+### Version 6.5.3 2018-06-12
 
-Base distro:
-
-- Replace lxterminal with sakura version 3.5.0
-- intel-microcode: version 20180425
-- mozilla-firefox: version 60.0 (CVE-2018-5150, CVE-2018-5151, CVE-2018-5152, CVE-2018-5153, CVE-2018-5154, CVE-2018-5155, CVE-2018-5157, CVE-2018-5158, CVE-2018-5159, CVE-2018-5160, CVE-2018-5163, CVE-2018-5164, CVE-2018-5165, CVE-2018-5166, CVE-2018-5167, CVE-2018-5168, CVE-2018-5169, CVE-2018-5172, CVE-2018-5173, CVE-2018-5174, CVE-2018-5175, CVE-2018-5176, CVE-2018-5177, CVE-2018-5180, CVE-2018-5181, CVE-2018-5182)
-- php: version 7.2.5 (CVE-2018-10545, CVE-2018-10546, CVE-2018-10547, CVE-2018-10548, CVE-2018-10549)
-- smartmontools: update drivedb and hwdata/{pci.ids,usb.ids,oui.txt,manuf.txt}
-    
 Linux kernel:
 
-- version 4.14.40
-- added driver:
-  - CONFIG_PATA_SIL680: CMD / Silicon Image 680 PATA support
+- version 4.14.49
+- set CONFIG_PREEMPT=no and CONFIG_PREEMPT_VOLUNTARY=yes
 
 Management:
 
-- webgui: Fixed calculation of next custom parity schedule
-- webgui: Suppress Docker PHP error if container has no ports exposed or utilized
-- webgui: Docker skip hidden files when listing directories
-- webgui: Adjusted TAB color styling for all themes
-- webgui: Added branch type to previous version
-- webgui: Suppress auto generated hyperlinks by MS Edge
-- webgui: Docker: added pause/resume commands & container console window
-- webgui: Added: Docker Pause/Resume all Containers buttons
-- webgui: Make sorting of Docker and VM list draggable
-- webgui: Fixed column count in Docker container list
-- webgui: CSS correction VM list for themes white and black
-- webgui: Add class A (/8) network mask
-- webgui: Smart syslinux configuration
-- webgui: Syslinux config: basic and advanced mode
-- webgui: Make SMB extra auto sizeable
-- webgui: Add support for Docker Labels to Docker plugin
-- webgui: Add release notes to version string in header
-- webgui: Fixed incorrect display of memory size on dashboard
-  - Memory size is incorrectly displayed when a parity check is running
-- webgui: Fixed regression error in docker_cfg file
-- webgui: Minor style adjustment for Docker containers and VMs
+- Small update to create_network_ini to suppress progress information when using cURL.
+- updat﻿e smar﻿tmontools drivedb and hwdata/{pci.ids,usb.ids,oui.txt,manuf.txt} 
+- webgui: Remove unused tags from docker templates
+- webgui: apcups: ensure numeric fields are 0 if the values are empty
+- webgui: bug fix: prevent deleting user template when (letter case) renaming a docker container
+- webgui: Strip HTML from back-end
+- webgui: make entire menu items clickable for gray and azure themes
 ]]>
 </CHANGES>
 
